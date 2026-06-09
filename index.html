@@ -1,723 +1,939 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday, Yuny</title>
-  <style>
-    :root {
-      --bg: #07070a;
-      --gold: #d8b56d;
-      --gold-soft: #f3dfad;
-      --text: #f7f1e8;
-      --muted: #cbbfae;
-      --line: rgba(216, 181, 109, 0.25);
-      --line-soft: rgba(255,255,255,0.08);
-      --shadow: rgba(0, 0, 0, 0.45);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      font-family: Georgia, "Times New Roman", serif;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(216, 181, 109, 0.12), transparent 30%),
-        radial-gradient(circle at 80% 15%, rgba(255, 255, 255, 0.05), transparent 24%),
-        linear-gradient(135deg, #050507 0%, #0d0c12 52%, #15100a 100%);
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-      background-size: 54px 54px;
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent 88%);
-      z-index: 0;
-    }
-
-    .noise {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.05;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.8'/%3E%3C/svg%3E");
-      z-index: 1;
-    }
-
-    .sparkles {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      border-radius: 999px;
-      background: var(--gold-soft);
-      opacity: 0.6;
-      animation: floatUp linear infinite;
-      box-shadow: 0 0 10px rgba(243, 223, 173, 0.6);
-    }
-
-    @keyframes floatUp {
-      from { transform: translateY(105vh) scale(0.8); opacity: 0; }
-      20% { opacity: 0.7; }
-      to { transform: translateY(-15vh) scale(1.25); opacity: 0; }
-    }
-
-    .app {
-      position: relative;
-      z-index: 3;
-      min-height: 100vh;
-    }
-
-    .gate {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 28px;
-      transition: opacity 700ms ease, transform 700ms ease, visibility 700ms ease;
-    }
-
-    .gate.hidden {
-      opacity: 0;
-      transform: translateY(-16px);
-      visibility: hidden;
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .gate-card,
-    .panel,
-    .soft-card,
-    .note-board {
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03)),
-        rgba(8, 8, 13, 0.68);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 26px 90px var(--shadow);
-    }
-
-    .gate-card {
-      width: min(720px, 100%);
-      padding: 40px 30px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .gate-card::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      background: linear-gradient(120deg, transparent, rgba(216,181,109,0.18), transparent);
-      transform: translateX(-100%);
-      animation: shine 4.8s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes shine {
-      0%, 42% { transform: translateX(-115%); }
-      72%, 100% { transform: translateX(115%); }
-    }
-
-    .eyebrow {
-      margin: 0 0 14px;
-      color: var(--gold);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.28em;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(34px, 7.4vw, 72px);
-      line-height: 0.96;
-      font-weight: 500;
-      letter-spacing: -0.05em;
-    }
-
-    .heart {
-      color: var(--gold-soft);
-      text-shadow: 0 0 28px rgba(216, 181, 109, 0.45);
-    }
-
-    .subtitle {
-      margin: 22px auto 0;
-      max-width: 560px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.7;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .open-btn {
-      margin-top: 28px;
-      padding: 15px 24px;
-      border-radius: 999px;
-      color: #17110a;
-      background: linear-gradient(135deg, #f6dfaa, #c99f4b);
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      box-shadow: 0 12px 30px rgba(216, 181, 109, 0.25);
-      transition: transform 180ms ease, box-shadow 180ms ease;
-    }
-
-    .open-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 42px rgba(216, 181, 109, 0.32);
-    }
-
-    .hint {
-      margin-top: 14px;
-      color: rgba(247, 241, 232, 0.54);
-      font-size: 13px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .main {
-      display: none;
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 700ms ease, transform 700ms ease;
-    }
-
-    .main.visible {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .topbar {
-      position: fixed;
-      left: 50%;
-      top: 16px;
-      transform: translateX(-50%);
-      width: min(940px, calc(100% - 32px));
-      padding: 10px 12px;
-      border: 1px solid rgba(216, 181, 109, 0.22);
-      border-radius: 999px;
-      background: rgba(7, 7, 10, 0.55);
-      backdrop-filter: blur(14px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 20;
-      box-shadow: 0 14px 42px rgba(0,0,0,0.22);
-    }
-
-    .brand {
-      padding-left: 10px;
-      color: var(--gold-soft);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .music-btn {
-      padding: 9px 13px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.12);
-      font-size: 12px;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      align-items: center;
-      padding: 84px 22px 34px;
-    }
-
-    .container {
-      width: min(1040px, 100%);
-      margin: 0 auto;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.06fr 0.94fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .panel { overflow: hidden; }
-
-    .message {
-      padding: clamp(30px, 5vw, 56px);
-      min-height: 620px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .message h2 {
-      margin: 0;
-      font-size: clamp(40px, 7vw, 78px);
-      line-height: 0.96;
-      font-weight: 500;
-      letter-spacing: -0.055em;
-    }
-
-    .message p {
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.78;
-      max-width: 620px;
-    }
-
-    .signature {
-      margin-top: 18px;
-      color: var(--gold-soft);
-      font-size: 24px;
-      font-style: italic;
-    }
-
-    .side {
-      display: grid;
-      gap: 18px;
-    }
-
-    .ticket {
-      padding: 30px 30px 26px;
-      position: relative;
-      border-radius: 34px;
-    }
-
-    .ticket-label {
-      color: var(--gold);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    .ticket h3 {
-      margin: 0 0 16px;
-      font-size: 34px;
-      line-height: 1.05;
-      font-weight: 500;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      gap: 12px;
-      padding: 14px 0;
-      border-top: 1px solid var(--line-soft);
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .row span:first-child {
-      color: rgba(247,241,232,0.58);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-    }
-
-    .row span:last-child {
-      color: var(--text);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .countdown {
-      padding: 24px 26px 28px;
-    }
-
-    .count-title {
-      margin: 0 0 16px;
-      color: var(--gold-soft);
-      font-size: 24px;
-      font-weight: 500;
-    }
-
-    .timer {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-
-    .time-box {
-      padding: 16px 8px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      text-align: center;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .time-box strong {
-      display: block;
-      font-size: 25px;
-      color: var(--gold-soft);
-    }
-
-    .time-box small {
-      display: block;
-      margin-top: 5px;
-      color: rgba(247,241,232,0.54);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-    }
-
-    .details {
-      padding: 8px 22px 84px;
-    }
-
-    .note-board {
-      padding: 34px;
-    }
-
-    .section-title {
-      margin: 0 0 22px;
-      color: var(--gold-soft);
-      font-size: clamp(34px, 5vw, 54px);
-      font-weight: 500;
-      letter-spacing: -0.045em;
-      text-align: center;
-    }
-
-    .plan-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .plan-item {
-      display: grid;
-      grid-template-columns: 90px 1fr;
-      gap: 16px;
-      align-items: start;
-      padding: 18px 4px;
-      border-top: 1px solid var(--line-soft);
-    }
-
-    .plan-item:first-child {
-      border-top: 0;
-      padding-top: 6px;
-    }
-
-    .plan-no {
-      color: var(--gold);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding-top: 4px;
-    }
-
-    .plan-copy h4 {
-      margin: 0 0 8px;
-      font-size: 28px;
-      font-weight: 500;
-    }
-
-    .plan-copy p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-    }
-
-    .final-note {
-      margin-top: 24px;
-      padding-top: 22px;
-      border-top: 1px solid var(--line-soft);
-      text-align: center;
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 17px;
-    }
-
-    .final-note strong {
-      color: var(--gold-soft);
-      font-weight: 500;
-      font-size: 21px;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%) translateY(24px);
-      opacity: 0;
-      pointer-events: none;
-      padding: 12px 16px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.10);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.14);
-      backdrop-filter: blur(12px);
-      z-index: 40;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 13px;
-      transition: opacity 300ms ease, transform 300ms ease;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    @media (max-width: 880px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .message { min-height: auto; }
-    }
-
-    @media (max-width: 520px) {
-      .gate-card { padding: 34px 22px; }
-      .hero { padding-top: 78px; }
-      .message, .ticket, .countdown, .note-board { padding: 24px; }
-      .timer { gap: 7px; }
-      .time-box strong { font-size: 20px; }
-      .brand { font-size: 10px; letter-spacing: 0.10em; }
-      .row { grid-template-columns: 76px 1fr; }
-      .plan-item { grid-template-columns: 1fr; gap: 6px; }
-      .plan-no { padding-top: 0; }
-    }
-  </style>
-</head>
-<body>
-  <div class="noise"></div>
-  <div class="sparkles" id="sparkles"></div>
-
-  <audio id="bgMusic" src="jazz.mp3" loop preload="auto"></audio>
-
-  <div class="app">
-    <section class="gate" id="gate">
-      <div class="gate-card">
-        <p class="eyebrow">June 15, 2026</p>
-        <h1>Happy Birthday,<br>Yuny <span class="heart">♥</span></h1>
-        <p class="subtitle">
-          A little birthday note for my pretty girl.<br>
-          Tonight is for you, baby — soft lights, a nice view, and a little plan from me.
-        </p>
-        <button class="open-btn" id="openBtn">Open your little invitation</button>
-        <div class="hint">tap once — slow jazz included</div>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Happy Birthday, Yuny</title>
+      <style>
+         :root {
+         --bg: #07070a;
+         --bg-soft: #101018;
+         --card: rgba(255, 255, 255, 0.075);
+         --card-strong: rgba(255, 255, 255, 0.12);
+         --gold: #d8b56d;
+         --gold-soft: #f3dfad;
+         --text: #f7f1e8;
+         --muted: #bdb3a5;
+         --line: rgba(216, 181, 109, 0.28);
+         --shadow: rgba(0, 0, 0, 0.45);
+         }
+         * {
+         box-sizing: border-box;
+         }
+         html {
+         scroll-behavior: smooth;
+         }
+         body {
+         margin: 0;
+         min-height: 100vh;
+         color: var(--text);
+         font-family: Georgia, "Times New Roman", serif;
+         background:
+         radial-gradient(circle at 20% 10%, rgba(216, 181, 109, 0.16), transparent 28%),
+         radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08), transparent 25%),
+         linear-gradient(135deg, #050507 0%, #0d0c12 48%, #15100a 100%);
+         overflow-x: hidden;
+         }
+         body::before {
+         content: "";
+         position: fixed;
+         inset: 0;
+         pointer-events: none;
+         background-image:
+         linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+         linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+         background-size: 52px 52px;
+         mask-image: linear-gradient(to bottom, rgba(0,0,0,0.75), transparent 88%);
+         z-index: 0;
+         }
+         .noise {
+         position: fixed;
+         inset: 0;
+         pointer-events: none;
+         opacity: 0.06;
+         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.8'/%3E%3C/svg%3E");
+         z-index: 1;
+         }
+         .sparkles {
+         position: fixed;
+         inset: 0;
+         overflow: hidden;
+         pointer-events: none;
+         z-index: 2;
+         }
+         .sparkle {
+         position: absolute;
+         width: var(--size, 3px);
+         height: var(--size, 3px);
+         border-radius: 999px;
+         background: var(--gold-soft);
+         opacity: 0;
+         animation:
+         floatUp var(--duration, 12s) linear infinite,
+         twinkle var(--twinkle, 3.8s) ease-in-out infinite;
+         animation-delay: var(--delay, 0s), var(--delay, 0s);
+         box-shadow:
+         0 0 12px rgba(243, 223, 173, 0.9),
+         0 0 28px rgba(216, 181, 109, 0.38),
+         0 0 44px rgba(216, 181, 109, 0.16);
+         }
+         .sparkle::after {
+         content: "";
+         position: absolute;
+         inset: -6px;
+         border-radius: inherit;
+         background: radial-gradient(circle, rgba(243,223,173,0.25), transparent 62%);
+         }
+         @keyframes floatUp {
+         from {
+         transform: translate3d(0, 108vh, 0) scale(0.65);
+         }
+         to {
+         transform: translate3d(var(--drift, 18px), -14vh, 0) scale(1.16);
+         }
+         }
+         @keyframes twinkle {
+         0%, 100% {
+         opacity: 0;
+         }
+         18%, 62% {
+         opacity: var(--opacity, 0.58);
+         }
+         40% {
+         opacity: calc(var(--opacity, 0.58) + 0.16);
+         }
+         }
+         .app {
+         position: relative;
+         z-index: 3;
+         min-height: 100vh;
+         }
+         .gate {
+         min-height: 100vh;
+         display: grid;
+         place-items: center;
+         padding: 28px;
+         transition: opacity 700ms ease, transform 700ms ease, visibility 700ms ease;
+         }
+         .gate.hidden {
+         opacity: 0;
+         transform: translateY(-16px);
+         visibility: hidden;
+         position: absolute;
+         inset: 0;
+         pointer-events: none;
+         }
+         .gate-card,
+         .glass-card {
+         border: 1px solid var(--line);
+         border-radius: 28px;
+         background:
+         linear-gradient(145deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035)),
+         rgba(8, 8, 13, 0.70);
+         backdrop-filter: blur(18px);
+         box-shadow: 0 28px 90px var(--shadow);
+         position: relative;
+         overflow: hidden;
+         }
+         .gate-card {
+         width: min(640px, 100%);
+         padding: 36px 26px;
+         text-align: center;
+         }
+         .gate-card::before {
+         content: "";
+         position: absolute;
+         inset: -2px;
+         background: linear-gradient(120deg, transparent, rgba(216,181,109,0.18), transparent);
+         transform: translateX(-120%);
+         animation: shine 4s ease-in-out infinite;
+         pointer-events: none;
+         }
+         .glass-card::before {
+         content: "";
+         position: absolute;
+         inset: 0;
+         border-radius: inherit;
+         background:
+         radial-gradient(circle at 18% 12%, rgba(216,181,109,0.13), transparent 28%),
+         radial-gradient(circle at 82% 88%, rgba(243,223,173,0.08), transparent 30%);
+         opacity: 0.72;
+         animation: cardGlow 6.5s ease-in-out infinite;
+         pointer-events: none;
+         }
+         @keyframes shine {
+         0%, 45% {
+         transform: translateX(-120%);
+         }
+         75%, 100% {
+         transform: translateX(120%);
+         }
+         }
+         @keyframes cardGlow {
+         0%, 100% {
+         opacity: 0.45;
+         filter: blur(0px);
+         }
+         50% {
+         opacity: 0.95;
+         filter: blur(1px);
+         }
+         }
+         .eyebrow {
+         margin: 0 0 16px;
+         color: var(--gold);
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 11px;
+         text-transform: uppercase;
+         letter-spacing: 0.26em;
+         }
+         h1 {
+         margin: 0;
+         font-size: clamp(42px, 9vw, 78px);
+         line-height: 0.96;
+         font-weight: 500;
+         letter-spacing: -0.055em;
+         }
+         .heart {
+         color: var(--gold-soft);
+         text-shadow: 0 0 28px rgba(216, 181, 109, 0.5);
+         }
+         .subtitle {
+         margin: 22px auto 0;
+         max-width: 520px;
+         color: var(--muted);
+         font-size: 17px;
+         line-height: 1.75;
+         }
+         .subtitle em {
+         color: var(--gold-soft);
+         font-style: italic;
+         }
+         button,
+         .map-btn {
+         border: 0;
+         cursor: pointer;
+         font-family: Arial, Helvetica, sans-serif;
+         text-decoration: none;
+         }
+         .open-btn,
+         .map-btn {
+         display: inline-flex;
+         justify-content: center;
+         align-items: center;
+         margin-top: 30px;
+         padding: 15px 22px;
+         border-radius: 999px;
+         color: #17110a;
+         background: linear-gradient(135deg, #f6dfaa, #c99f4b);
+         font-weight: 700;
+         letter-spacing: 0.03em;
+         box-shadow: 0 12px 30px rgba(216, 181, 109, 0.25);
+         transition: transform 180ms ease, box-shadow 180ms ease;
+         }
+         .open-btn:hover,
+         .map-btn:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 16px 42px rgba(216, 181, 109, 0.32);
+         }
+         .map-frame {
+         margin-top: 20px;
+         padding: 10px;
+         }
+         .map-frame iframe {
+         display: block;
+         width: 100%;
+         height: 260px;
+         border: 0;
+         border-radius: 20px;
+         filter: saturate(0.85) contrast(1.02) brightness(0.92);
+         }
+         .map-link-small {
+         display: inline-block;
+         margin-top: 14px;
+         color: var(--gold-soft);
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 13px;
+         text-decoration: none;
+         opacity: 0.9;
+         }
+         .hint {
+         margin-top: 14px;
+         color: rgba(247, 241, 232, 0.54);
+         font-size: 13px;
+         font-family: Arial, Helvetica, sans-serif;
+         }
+         .main {
+         display: none;
+         opacity: 0;
+         transform: translateY(18px);
+         transition: opacity 700ms ease, transform 700ms ease;
+         position: relative;
+         }
+         .main.visible {
+         display: block;
+         opacity: 1;
+         transform: translateY(0);
+         }
+         .main::before,
+         .main::after {
+         content: "";
+         position: fixed;
+         width: 360px;
+         height: 360px;
+         border-radius: 999px;
+         pointer-events: none;
+         z-index: 1;
+         filter: blur(34px);
+         opacity: 0.18;
+         animation: auroraMove 12s ease-in-out infinite alternate;
+         }
+         .main::before {
+         left: -130px;
+         top: 18%;
+         background: radial-gradient(circle, rgba(216,181,109,0.55), transparent 68%);
+         }
+         .main::after {
+         right: -150px;
+         bottom: 12%;
+         background: radial-gradient(circle, rgba(243,223,173,0.34), transparent 70%);
+         animation-delay: -4s;
+         }
+         @keyframes auroraMove {
+         0% {
+         transform: translate3d(0, 0, 0) scale(1);
+         }
+         100% {
+         transform: translate3d(28px, -46px, 0) scale(1.15);
+         }
+         }
+         .music-btn {
+         position: fixed;
+         right: 14px;
+         top: 14px;
+         z-index: 40;
+         padding: 10px 14px;
+         border-radius: 999px;
+         background: rgba(7, 7, 10, 0.62);
+         color: var(--text);
+         border: 1px solid rgba(255,255,255,0.12);
+         backdrop-filter: blur(14px);
+         font-size: 12px;
+         }
+         section {
+         padding: 48px 18px;
+         }
+         .main section {
+         position: relative;
+         z-index: 3;
+         animation: sectionFade 900ms ease both;
+         }
+         .main section:nth-child(2) { animation-delay: 90ms; }
+         .main section:nth-child(3) { animation-delay: 160ms; }
+         .main section:nth-child(4) { animation-delay: 230ms; }
+         .main section:nth-child(5) { animation-delay: 300ms; }
+         .main section:nth-child(6) { animation-delay: 370ms; }
+         @keyframes sectionFade {
+         from {
+         opacity: 0;
+         transform: translateY(18px);
+         }
+         to {
+         opacity: 1;
+         transform: translateY(0);
+         }
+         }
+         .main .glass-card {
+         background:
+         linear-gradient(145deg, rgba(255,255,255,0.085), rgba(255,255,255,0.028)),
+         linear-gradient(180deg, rgba(216,181,109,0.045), transparent 45%),
+         rgba(8, 8, 13, 0.72);
+         box-shadow:
+         0 24px 80px rgba(0, 0, 0, 0.42),
+         inset 0 1px 0 rgba(255,255,255,0.08),
+         0 0 0 1px rgba(216,181,109,0.06);
+         }
+         .main .glass-card::after {
+         content: "";
+         position: absolute;
+         inset: 1px;
+         border-radius: inherit;
+         border: 1px solid rgba(255,255,255,0.045);
+         pointer-events: none;
+         }
+         .first-section {
+         padding-top: 82px;
+         }
+         .container {
+         width: min(640px, 100%);
+         margin: 0 auto;
+         }
+         .glass-card {
+         padding: 30px 24px;
+         margin: 0 auto;
+         }
+         .glass-card > * {
+         position: relative;
+         z-index: 2;
+         }
+         .hero-note {
+         min-height: 72vh;
+         display: grid;
+         align-items: center;
+         }
+         .big-title {
+         margin: 0;
+         font-size: clamp(44px, 12vw, 76px);
+         line-height: 0.96;
+         font-weight: 500;
+         letter-spacing: -0.055em;
+         }
+         .romantic-line {
+         margin: 18px 0 0;
+         color: var(--muted);
+         font-size: 18px;
+         line-height: 1.7;
+         }
+         .romantic-line em {
+         color: var(--gold-soft);
+         font-style: italic;
+         }
+         .section-title {
+         margin: 0 0 18px;
+         text-align: center;
+         color: var(--gold-soft);
+         font-size: clamp(30px, 8vw, 48px);
+         font-weight: 500;
+         letter-spacing: -0.04em;
+         line-height: 1.08;
+         }
+         .section-copy {
+         margin: 0 auto 22px;
+         max-width: 520px;
+         color: var(--muted);
+         text-align: center;
+         font-size: 17px;
+         line-height: 1.75;
+         }
+         .photo-card {
+         padding: 12px;
+         }
+         .photo-card img {
+         display: block;
+         width: 100%;
+         height: auto;
+         max-height: none;
+         object-fit: contain;
+         border-radius: 20px;
+         border: 1px solid rgba(216, 181, 109, 0.18);
+         background: rgba(0,0,0,0.2);
+         }
+         .photo-caption {
+         margin: 18px auto 4px;
+         max-width: 510px;
+         color: var(--muted);
+         text-align: center;
+         font-size: 16px;
+         line-height: 1.7;
+         font-style: italic;
+         }
+         .ticket-title {
+         margin: 0 0 18px;
+         font-size: 36px;
+         line-height: 1.05;
+         font-weight: 500;
+         letter-spacing: -0.04em;
+         }
+         .ticket-subtitle {
+         margin: 0 0 22px;
+         color: var(--muted);
+         font-size: 16px;
+         line-height: 1.6;
+         font-style: italic;
+         }
+         .row {
+         display: grid;
+         grid-template-columns: 86px 1fr;
+         gap: 12px;
+         padding: 14px 0;
+         border-top: 1px solid rgba(255,255,255,0.09);
+         font-family: Arial, Helvetica, sans-serif;
+         }
+         .row span:first-child {
+         color: rgba(247,241,232,0.58);
+         font-size: 11px;
+         text-transform: uppercase;
+         letter-spacing: 0.14em;
+         }
+         .row span:last-child {
+         color: var(--text);
+         font-size: 14px;
+         line-height: 1.55;
+         }
+         .countdown-card {
+         margin-top: 18px;
+         }
+         .count-title {
+         margin: 0 0 18px;
+         color: var(--gold-soft);
+         font-size: 24px;
+         font-weight: 500;
+         }
+         .timer {
+         display: grid;
+         grid-template-columns: repeat(4, 1fr);
+         gap: 8px;
+         }
+         .time-box {
+         padding: 14px 6px;
+         border-radius: 18px;
+         background: rgba(255,255,255,0.07);
+         border: 1px solid rgba(255,255,255,0.08);
+         text-align: center;
+         font-family: Arial, Helvetica, sans-serif;
+         }
+         .time-box strong {
+         display: block;
+         font-size: 22px;
+         color: var(--gold-soft);
+         }
+         .time-box small {
+         display: block;
+         margin-top: 4px;
+         color: rgba(247,241,232,0.54);
+         font-size: 9px;
+         text-transform: uppercase;
+         letter-spacing: 0.12em;
+         }
+         .letter p {
+         margin: 0 0 18px;
+         color: var(--muted);
+         font-size: 16px;
+         line-height: 1.78;
+         }
+         .letter em {
+         color: var(--gold-soft);
+         font-style: italic;
+         }
+         .signature {
+         margin-top: 20px;
+         color: var(--gold-soft);
+         font-size: 24px;
+         font-style: italic;
+         text-align: right;
+         }
+         .closing {
+         padding-bottom: 90px;
+         }
+         .closing-card {
+         text-align: center;
+         padding: 42px 24px;
+         }
+         .closing-card p {
+         margin: 0 auto 22px;
+         max-width: 500px;
+         color: var(--muted);
+         font-size: 18px;
+         line-height: 1.75;
+         font-style: italic;
+         }
+         .closing-card h2 {
+         margin: 0;
+         color: var(--gold-soft);
+         font-size: clamp(42px, 11vw, 70px);
+         line-height: 1;
+         font-weight: 500;
+         letter-spacing: -0.06em;
+         }
+         .toast {
+         position: fixed;
+         left: 50%;
+         bottom: 18px;
+         transform: translateX(-50%) translateY(24px);
+         opacity: 0;
+         pointer-events: none;
+         padding: 12px 16px;
+         border-radius: 999px;
+         background: rgba(255,255,255,0.10);
+         color: var(--text);
+         border: 1px solid rgba(255,255,255,0.14);
+         backdrop-filter: blur(12px);
+         z-index: 50;
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 13px;
+         transition: opacity 300ms ease, transform 300ms ease;
+         }
+         .toast.show {
+         opacity: 1;
+         transform: translateX(-50%) translateY(0);
+         }
+         @media (max-width: 420px) {
+         .gate-card {
+         padding: 32px 20px;
+         }
+         .glass-card {
+         padding: 26px 20px;
+         border-radius: 24px;
+         }
+         .row {
+         grid-template-columns: 74px 1fr;
+         }
+         .section-title {
+         font-size: 34px;
+         }
+         .time-box strong {
+         font-size: 19px;
+         }
+         .time-box small {
+         font-size: 8px;
+         }
+         }
+      </style>
+   </head>
+   <body>
+      <div class="noise"></div>
+      <div class="sparkles" id="sparkles"></div>
+      <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+      <div class="app">
+         <section class="gate" id="gate">
+            <div class="gate-card">
+               <p class="eyebrow">A birthday note</p>
+               <h1>
+                  Happy Birthday,<br />
+                  Yuny <span class="heart">♥</span>
+               </h1>
+               <p class="subtitle">
+                  this one is for you. <br />
+                  not just a normal birthday text. <br />
+                  <em> a little birthday card for my pretty girl. </em>
+               </p>
+               <button class="open-btn" id="openBtn">
+               Open your little invitation
+               </button>
+               <div class="hint">
+                  - tap once -
+               </div>
+            </div>
+         </section>
+         <main class="main" id="main">
+            <button class="music-btn" id="musicBtn">Music: On</button>
+            <section class="first-section hero-note">
+               <div class="container">
+                  <div class="glass-card">
+                     <p class="eyebrow">A birthday note</p>
+                     <h2 class="big-title">
+                        For my baby,<br />
+                        Yunita.
+                     </h2>
+                     <p class="romantic-line">
+                        happy birthday ya, sayang.
+                        I just want you to feel special on your birthday - 
+                        not yang heboh banget, but still sweet,
+                        warm, and <em>worth remembering</em>.
+                     </p>
+                     <p class="romantic-line">
+                        tonight kita dinner, enjoy good food, nice view,
+                        and just spend the night together.
+                        kamu tinggal siap-siap aja, let me handle the rest.
+                     </p>
+                  </div>
+               </div>
+            </section>
+            <section>
+               <div class="container">
+                  <h2 class="section-title">A little memory</h2>
+                  <p class="section-copy">
+                     i still like this photo so much.
+                     walaupun u bilang ini keliatan kayak AI wkwk,
+                     menurut i tetep bagus banget —
+                     very you, pretty, classy, and elegant.
+                  </p>
+                  <div class="glass-card photo-card">
+                     <img src="photo.jpg" alt="Yuny holding a birthday cake" />
+                  </div>
+               </div>
+            </section>
+            <section>
+               <div class="container">
+                  <div class="glass-card">
+                     <p class="eyebrow">Tonight's reservation</p>
+                     <h2 class="ticket-title">
+                        Dinner Invitation
+                     </h2>
+                     <p class="ticket-subtitle">
+                        dinner plan for tonight:
+                     </p>
+                     <div class="row">
+                        <span>Guest</span>
+                        <span>Yuny</span>
+                     </div>
+                     <div class="row">
+                        <span>Date</span>
+                        <span>Monday, 15 June 2026</span>
+                     </div>
+                     <div class="row">
+                        <span>Time</span>
+                        <span>21:00 WIB</span>
+                     </div>
+                     <div class="row">
+                        <span>Place</span>
+                        <span>Tom’s by Tom Aikens<br />The Langham Jakarta</span>
+                     </div>
+                     <div class="row">
+                        <span>Dress</span>
+                        <span>
+                        wear something elegant and pretty, babe.
+                        yang rapih yaa — i know you’ll look good anyway.
+                        </span>
+                     </div>
+                  </div>
+                  <div class="glass-card countdown-card">
+                     <p class="count-title">Countdown to dinner</p>
+                     <div class="timer">
+                        <div class="time-box">
+                           <strong id="days">00</strong>
+                           <small>Days</small>
+                        </div>
+                        <div class="time-box">
+                           <strong id="hours">00</strong>
+                           <small>Hours</small>
+                        </div>
+                        <div class="time-box">
+                           <strong id="minutes">00</strong>
+                           <small>Minutes</small>
+                        </div>
+                        <div class="time-box">
+                           <strong id="seconds">00</strong>
+                           <small>Seconds</small>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <section>
+               <div class="container">
+                  <h2 class="section-title">Tonight's place</h2>
+                  <div class="glass-card photo-card">
+                     <img src="venue.jpg" alt="Tom's by Tom Aikens at The Langham Jakarta" />
+                  </div>
+                  <div class="glass-card map-frame">
+                     <iframe
+                        src="https://www.google.com/maps?q=Tom%27s%20by%20Tom%20Aikens%20The%20Langham%20Jakarta&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen>
+                     </iframe>
+                  </div>
+                  <div style="text-align: center;">
+                     <a
+                        class="map-link-small"
+                        href="https://www.google.com/maps/search/?api=1&query=Tom%27s%20by%20Tom%20Aikens%20The%20Langham%20Jakarta"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
+                     open in Google Maps
+                     </a>
+                  </div>
+               </div>
+            </section>
+            <section>
+               <div class="container">
+                  <div class="glass-card letter">
+                     <p class="eyebrow">From me</p>
+                     <p>
+                        Happy birthday ya, sayang.
+                     </p>
+                     <p>
+                        First of all, thank you for always being there for me.
+                        Thank you for all the warmth, care, and endless patience
+                        you’ve given me.
+                     </p>
+                     <p>
+                        My biggest wish buat u, semoga u bisa terus sabar ya
+                        menghadapi me, hehe. Semoga u makin sukses, makin percaya diri,
+                        dan makin bersinar di dunia per-content creator-an.
+                        I’ll always pray supaya semua usaha, kerja keras, dan hal-hal
+                        yang lagi u bangun pelan-pelan sekarang bisa membuahkan hasil
+                        yang luar biasa.
+                     </p>
+                     <p>
+                        Semoga u selalu dikasih kesehatan, hati yang kuat,
+                        pikiran yang tenang, dan jalan yang baik di setiap langkah u.
+                        Semoga semua mimpi u bisa tercapai satu per satu,
+                        dari yang kecil sampai yang paling besar.
+                        I hope you never stop believing in yourself,
+                        because I really believe you have something special in you.
+                     </p>
+                     <p>
+                        Semoga di umur yang baru ini, u makin banyak ketemu hal-hal baik,
+                        orang-orang baik, kesempatan yang baik, dan rezeki yang lancar.
+                        Semoga setiap proses yang u jalanin sekarang,
+                        walaupun kadang capek atau nggak gampang,
+                        bisa bawa u ke tempat yang jauh lebih baik dari yang u bayangkan.
+                     </p>
+                     <p>
+                        But above all, I hope our relationship always puts God first.
+                        Jadi ketika nanti ada masalah apa pun,
+                        kita bisa sama-sama belajar untuk lebih sabar,
+                        lebih ngerti satu sama lain,
+                        dan percaya kalau Tuhan pasti akan selalu kasih jalan keluar.
+                     </p>
+                     <p>
+                        Di hari spesial ini, I just want you to feel loved,
+                        appreciated, and happy, because you truly deserve
+                        all the happiness in this world.
+                     </p>
+                     <p>
+                        Happy birthday once again, bb.
+                        I’m grateful for you,
+                        and I’m really happy I get to celebrate this day with you.
+                        I love u.
+                     </p>
+                     <div class="signature">— Jeremy</div>
+                  </div>
+               </div>
+            </section>
+            <section class="closing">
+               <div class="container">
+                  <div class="glass-card closing-card">
+                     <p>
+                        hope this year brings you more happy days,
+                        more good memories, and more reasons to smile.
+                     </p>
+                     <h2>
+                        Happy Birthday,<br />
+                        BB <span class="heart">♥</span>
+                     </h2>
+                  </div>
+               </div>
+            </section>
+         </main>
       </div>
-    </section>
-
-    <main class="main" id="main">
-      <div class="topbar">
-        <div class="brand">For Yuny · From Jeremy</div>
-        <button class="music-btn" id="musicBtn">Music: On</button>
+      <div class="toast" id="toast">
+         Music started. See you tonight, babe.
       </div>
-
-      <section class="hero">
-        <div class="container hero-grid">
-          <div class="panel message">
-            <p class="eyebrow">A birthday note</p>
-            <h2>For my baby,<br>Yunita.</h2>
-            <p>
-              happy birthday ya, baby.<br><br>
-              aku cuma pengen hari ini terasa special buat kamu.
-              not loud, not too much — just warm, pretty, and full of little things that make you smile.
-              kamu layak dapet malam yang cantik, makanan enak, view yang bagus, and a moment that feels a little extra.
-            </p>
-            <p>
-              so tonight, jangan mikir apa-apa dulu.
-              kamu tinggal siap-siap aja, pakai dress yang bikin kamu feel pretty,
-              bring that sweet smile of yours, and let me take care of the rest.
-            </p>
-            <div class="signature">— Jeremy</div>
-          </div>
-
-          <div class="side">
-            <div class="panel ticket">
-              <div class="ticket-label">Tonight's reservation</div>
-              <h3>Dinner Invitation</h3>
-
-              <div class="row"><span>Guest</span><span>Yuny</span></div>
-              <div class="row"><span>Date</span><span>Monday, 15 June 2026</span></div>
-              <div class="row"><span>Time</span><span>21:00 WIB</span></div>
-              <div class="row"><span>Place</span><span>Tom’s by Tom Aikens<br>The Langham Jakarta</span></div>
-              <div class="row"><span>Dress</span><span>Wear something elegant, babe. Pretty is already your default — tonight I just want you looking a little extra stunning for me.</span></div>
-            </div>
-
-            <div class="panel countdown">
-              <p class="count-title">Countdown to dinner</p>
-              <div class="timer">
-                <div class="time-box"><strong id="days">00</strong><small>Days</small></div>
-                <div class="time-box"><strong id="hours">00</strong><small>Hours</small></div>
-                <div class="time-box"><strong id="minutes">00</strong><small>Minutes</small></div>
-                <div class="time-box"><strong id="seconds">00</strong><small>Seconds</small></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="details">
-        <div class="container">
-          <div class="note-board">
-            <h3 class="section-title">Before tonight, just three things.</h3>
-
-            <div class="plan-list">
-              <div class="plan-item">
-                <div class="plan-no">01</div>
-                <div class="plan-copy">
-                  <h4>Be pretty.</h4>
-                  <p>That part is easy for you anyway. Just get ready, feel good, and let tonight bring out the extra glow.</p>
-                </div>
-              </div>
-
-              <div class="plan-item">
-                <div class="plan-no">02</div>
-                <div class="plan-copy">
-                  <h4>Come hungry.</h4>
-                  <p>There is a table waiting, city lights somewhere above us, and a birthday dinner made to feel a little special.</p>
-                </div>
-              </div>
-
-              <div class="plan-item">
-                <div class="plan-no">03</div>
-                <div class="plan-copy">
-                  <h4>Leave the rest to me.</h4>
-                  <p>No need to overthink anything tonight. Just show up cute, stay close, and let me make this one for you.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="final-note">
-              <strong>See you tonight, babe.</strong>
-              I made this because a normal “happy birthday” text felt too plain for you.
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <div class="toast" id="toast">Music started. See you tonight, babe.</div>
-
-  <script>
-    const dinnerTime = new Date("2026-06-15T21:00:00+07:00").getTime();
-
-    const gate = document.getElementById("gate");
-    const main = document.getElementById("main");
-    const openBtn = document.getElementById("openBtn");
-    const musicBtn = document.getElementById("musicBtn");
-    const bgMusic = document.getElementById("bgMusic");
-    const toast = document.getElementById("toast");
-
-    const daysEl = document.getElementById("days");
-    const hoursEl = document.getElementById("hours");
-    const minutesEl = document.getElementById("minutes");
-    const secondsEl = document.getElementById("seconds");
-
-    function pad(number) {
-      return String(number).padStart(2, "0");
-    }
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = dinnerTime - now;
-
-      if (distance <= 0) {
-        daysEl.textContent = "00";
-        hoursEl.textContent = "00";
-        minutesEl.textContent = "00";
-        secondsEl.textContent = "00";
-        document.querySelector(".count-title").textContent = "Dinner time is here";
-        return;
-      }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((distance / (1000 * 60)) % 60);
-      const seconds = Math.floor((distance / 1000) % 60);
-
-      daysEl.textContent = pad(days);
-      hoursEl.textContent = pad(hours);
-      minutesEl.textContent = pad(minutes);
-      secondsEl.textContent = pad(seconds);
-    }
-
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2600);
-    }
-
-    async function startExperience() {
-      gate.classList.add("hidden");
-      main.classList.add("visible");
-
-      try {
-        bgMusic.volume = 0.42;
-        await bgMusic.play();
-        musicBtn.textContent = "Music: On";
-        showToast("Music started. See you tonight, babe.");
-      } catch (error) {
-        musicBtn.textContent = "Play music";
-        showToast("Tap Music to play the jazz.");
-      }
-
-      setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 100);
-    }
-
-    musicBtn.addEventListener("click", async () => {
-      if (bgMusic.paused) {
-        try {
-          await bgMusic.play();
-          musicBtn.textContent = "Music: On";
-          showToast("Music on.");
-        } catch (error) {
-          showToast("Your browser blocked audio. Tap again.");
-        }
-      } else {
-        bgMusic.pause();
-        musicBtn.textContent = "Music: Off";
-        showToast("Music paused.");
-      }
-    });
-
-    openBtn.addEventListener("click", startExperience);
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    const sparkles = document.getElementById("sparkles");
-    for (let i = 0; i < 42; i++) {
-      const dot = document.createElement("span");
-      dot.className = "sparkle";
-      dot.style.left = Math.random() * 100 + "%";
-      dot.style.animationDuration = 8 + Math.random() * 12 + "s";
-      dot.style.animationDelay = Math.random() * 8 + "s";
-      dot.style.opacity = 0.25 + Math.random() * 0.5;
-      sparkles.appendChild(dot);
-    }
-
-    console.log("%cBuilt by Jeremy, for Yuny. Happy Birthday ♥", "color:#d8b56d; font-size:16px; font-family:serif;");
-  </script>
-</body>
+      <script>
+         const dinnerTime = new Date("2026-06-15T21:00:00+07:00").getTime();
+         
+         const gate = document.getElementById("gate");
+         const main = document.getElementById("main");
+         const openBtn = document.getElementById("openBtn");
+         const musicBtn = document.getElementById("musicBtn");
+         const bgMusic = document.getElementById("bgMusic");
+         const toast = document.getElementById("toast");
+         
+         const daysEl = document.getElementById("days");
+         const hoursEl = document.getElementById("hours");
+         const minutesEl = document.getElementById("minutes");
+         const secondsEl = document.getElementById("seconds");
+         
+         function pad(number) {
+           return String(number).padStart(2, "0");
+         }
+         
+         function updateCountdown() {
+           const now = new Date().getTime();
+           const distance = dinnerTime - now;
+         
+           if (distance <= 0) {
+             daysEl.textContent = "00";
+             hoursEl.textContent = "00";
+             minutesEl.textContent = "00";
+             secondsEl.textContent = "00";
+             return;
+           }
+         
+           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+           const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+           const minutes = Math.floor((distance / (1000 * 60)) % 60);
+           const seconds = Math.floor((distance / 1000) % 60);
+         
+           daysEl.textContent = pad(days);
+           hoursEl.textContent = pad(hours);
+           minutesEl.textContent = pad(minutes);
+           secondsEl.textContent = pad(seconds);
+         }
+         
+         function showToast(message) {
+           toast.textContent = message;
+           toast.classList.add("show");
+         
+           setTimeout(() => {
+             toast.classList.remove("show");
+           }, 2400);
+         }
+         
+         async function startExperience() {
+           gate.classList.add("hidden");
+           main.classList.add("visible");
+         
+           try {
+             bgMusic.volume = 0.42;
+             await bgMusic.play();
+             musicBtn.textContent = "Music: On";
+             showToast("Music started. See you tonight, babe.");
+           } catch (error) {
+             musicBtn.textContent = "Play music";
+             showToast("Tap Music to play the jazz.");
+           }
+         
+           setTimeout(() => {
+             window.scrollTo({
+               top: 0,
+               behavior: "smooth"
+             });
+           }, 100);
+         }
+         
+         musicBtn.addEventListener("click", async () => {
+           if (bgMusic.paused) {
+             try {
+               await bgMusic.play();
+               musicBtn.textContent = "Music: On";
+               showToast("Music on.");
+             } catch (error) {
+               showToast("Your browser blocked audio. Tap again.");
+             }
+           } else {
+             bgMusic.pause();
+             musicBtn.textContent = "Music: Off";
+             showToast("Music paused.");
+           }
+         });
+         
+         openBtn.addEventListener("click", startExperience);
+         
+         updateCountdown();
+         setInterval(updateCountdown, 1000);
+         
+         const sparkles = document.getElementById("sparkles");
+         
+         for (let i = 0; i < 100; i++) {
+         const dot = document.createElement("span");
+         dot.className = "sparkle";
+         
+         const size = 1.4 + Math.random() * 4.4;
+         const duration = 7 + Math.random() * 12;
+         const delay = Math.random() * 9;
+         const drift = -55 + Math.random() * 110;
+         const opacity = 0.25 + Math.random() * 0.58;
+         const twinkle = 1.8 + Math.random() * 3.2;
+         
+         dot.style.left = Math.random() * 100 + "%";
+         dot.style.setProperty("--size", size + "px");
+         dot.style.setProperty("--duration", duration + "s");
+         dot.style.setProperty("--delay", delay + "s");
+         dot.style.setProperty("--drift", drift + "px");
+         dot.style.setProperty("--opacity", opacity);
+         dot.style.setProperty("--twinkle", twinkle + "s");
+         
+         sparkles.appendChild(dot);
+         }
+         
+         console.log(
+           "%cBuilt by Jeremy, for Yuny. Happy Birthday ♥",
+           "color:#d8b56d; font-size:16px; font-family:serif;"
+         );
+      </script>
+   </body>
 </html>
