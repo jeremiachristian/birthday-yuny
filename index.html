@@ -567,6 +567,189 @@
          opacity: 1;
          transform: translateX(-50%) translateY(0);
          }
+
+         .envelope-card {
+         text-align: center;
+         padding: 34px 24px;
+         }
+         .envelope-wrap {
+         width: 190px;
+         height: 128px;
+         margin: 12px auto 26px;
+         position: relative;
+         cursor: pointer;
+         filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.32));
+         perspective: 900px;
+         }
+         .envelope-body {
+         position: absolute;
+         inset: 34px 0 0;
+         border-radius: 0 0 18px 18px;
+         background:
+         linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.035)),
+         rgba(12, 12, 18, 0.92);
+         border: 1px solid rgba(216,181,109,0.38);
+         overflow: hidden;
+         }
+         .envelope-body::before,
+         .envelope-body::after {
+         content: "";
+         position: absolute;
+         bottom: 0;
+         width: 50%;
+         height: 100%;
+         background: linear-gradient(145deg, rgba(216,181,109,0.12), rgba(255,255,255,0.02));
+         border-top: 1px solid rgba(216,181,109,0.22);
+         }
+         .envelope-body::before {
+         left: 0;
+         clip-path: polygon(0 0, 100% 52%, 0 100%);
+         }
+         .envelope-body::after {
+         right: 0;
+         clip-path: polygon(100% 0, 0 52%, 100% 100%);
+         }
+         .envelope-flap {
+         position: absolute;
+         left: 0;
+         right: 0;
+         top: 34px;
+         height: 76px;
+         transform-origin: top center;
+         background: linear-gradient(145deg, rgba(216,181,109,0.30), rgba(255,255,255,0.04));
+         border: 1px solid rgba(216,181,109,0.38);
+         clip-path: polygon(0 0, 50% 68%, 100% 0);
+         transition: transform 850ms cubic-bezier(.2,.9,.2,1);
+         z-index: 3;
+         }
+         .envelope-letter-mini {
+         position: absolute;
+         left: 22px;
+         right: 22px;
+         top: 18px;
+         height: 76px;
+         border-radius: 14px;
+         background: linear-gradient(180deg, rgba(247,241,232,0.96), rgba(243,223,173,0.78));
+         transform: translateY(34px);
+         transition: transform 850ms cubic-bezier(.2,.9,.2,1);
+         z-index: 2;
+         }
+         .envelope-letter-mini::before {
+         content: "For Yuny";
+         position: absolute;
+         inset: 0;
+         display: grid;
+         place-items: center;
+         color: #3a2b14;
+         font-family: Georgia, "Times New Roman", serif;
+         font-style: italic;
+         font-size: 18px;
+         }
+         .envelope-seal {
+         position: absolute;
+         left: 50%;
+         top: 78px;
+         width: 34px;
+         height: 34px;
+         transform: translateX(-50%);
+         border-radius: 999px;
+         background: linear-gradient(135deg, #f6dfaa, #c99f4b);
+         box-shadow: 0 0 24px rgba(216,181,109,0.42);
+         z-index: 4;
+         display: grid;
+         place-items: center;
+         color: #241807;
+         font-size: 16px;
+         }
+         .envelope-wrap.opened .envelope-flap {
+         transform: rotateX(178deg);
+         }
+         .envelope-wrap.opened .envelope-letter-mini {
+         transform: translateY(-18px);
+         }
+         .envelope-title {
+         margin: 0 0 10px;
+         color: var(--gold-soft);
+         font-size: 30px;
+         line-height: 1.12;
+         font-weight: 500;
+         letter-spacing: -0.035em;
+         }
+         .envelope-copy {
+         margin: 0 auto;
+         max-width: 460px;
+         color: var(--muted);
+         font-size: 16px;
+         line-height: 1.7;
+         }
+         .open-letter-btn {
+         margin-top: 24px;
+         padding: 13px 20px;
+         border-radius: 999px;
+         color: #17110a;
+         background: linear-gradient(135deg, #f6dfaa, #c99f4b);
+         font-weight: 700;
+         letter-spacing: 0.03em;
+         box-shadow: 0 12px 30px rgba(216, 181, 109, 0.20);
+         }
+         .letter.hidden-letter {
+         display: none;
+         }
+         .letter.reveal-letter {
+         display: block;
+         margin-top: 22px;
+         animation: letterReveal 900ms ease both;
+         }
+         @keyframes letterReveal {
+         from {
+         opacity: 0;
+         transform: translateY(22px) scale(0.985);
+         }
+         to {
+         opacity: 1;
+         transform: translateY(0) scale(1);
+         }
+         }
+         .gold-burst {
+         position: fixed;
+         inset: 0;
+         pointer-events: none;
+         z-index: 80;
+         overflow: hidden;
+         }
+         .gold-burst span {
+         position: absolute;
+         left: 50%;
+         top: 50%;
+         width: var(--burst-size, 5px);
+         height: var(--burst-size, 5px);
+         border-radius: 999px;
+         background: var(--gold-soft);
+         box-shadow:
+         0 0 12px rgba(243, 223, 173, 0.9),
+         0 0 26px rgba(216, 181, 109, 0.36);
+         transform: translate(-50%, -50%);
+         animation: burstOut 1150ms ease-out forwards;
+         }
+         @keyframes burstOut {
+         0% {
+         opacity: 0;
+         transform: translate(-50%, -50%) scale(0.5);
+         }
+         12% {
+         opacity: 1;
+         }
+         100% {
+         opacity: 0;
+         transform:
+         translate(
+         calc(-50% + var(--x)),
+         calc(-50% + var(--y))
+         )
+         scale(0.2);
+         }
+         }
+
          @media (max-width: 420px) {
          .gate-card {
          padding: 32px 20px;
@@ -738,7 +921,24 @@
             </section>
             <section>
                <div class="container">
-                  <div class="glass-card letter">
+                  <div class="glass-card envelope-card" id="envelopeCard">
+                     <p class="eyebrow">A letter from me</p>
+                     <div class="envelope-wrap" id="envelopeWrap">
+                        <div class="envelope-letter-mini"></div>
+                        <div class="envelope-flap"></div>
+                        <div class="envelope-body"></div>
+                        <div class="envelope-seal">♥</div>
+                     </div>
+                     <h2 class="envelope-title">I wrote something for you.</h2>
+                     <p class="envelope-copy">
+                        tap to open it, bb. pelan-pelan aja bacanya.
+                     </p>
+                     <button class="open-letter-btn" id="openLetterBtn">
+                     Open my letter
+                     </button>
+                  </div>
+
+                  <div class="glass-card letter hidden-letter" id="birthdayLetter">
                      <p class="eyebrow">From me</p>
                      <p>
                         Happy birthday ya, sayang.
@@ -902,6 +1102,65 @@
          });
          
          openBtn.addEventListener("click", startExperience);
+
+
+         const envelopeWrap = document.getElementById("envelopeWrap");
+         const openLetterBtn = document.getElementById("openLetterBtn");
+         const birthdayLetter = document.getElementById("birthdayLetter");
+         const envelopeCard = document.getElementById("envelopeCard");
+
+         function goldBurst() {
+           const burst = document.createElement("div");
+           burst.className = "gold-burst";
+
+           for (let i = 0; i < 34; i++) {
+             const particle = document.createElement("span");
+             const angle = Math.random() * Math.PI * 2;
+             const distance = 70 + Math.random() * 130;
+             const x = Math.cos(angle) * distance;
+             const y = Math.sin(angle) * distance;
+             const size = 2 + Math.random() * 4;
+
+             particle.style.setProperty("--x", x + "px");
+             particle.style.setProperty("--y", y + "px");
+             particle.style.setProperty("--burst-size", size + "px");
+
+             burst.appendChild(particle);
+           }
+
+           document.body.appendChild(burst);
+
+           setTimeout(() => {
+             burst.remove();
+           }, 1300);
+         }
+
+         let letterOpened = false;
+
+         function openLetter() {
+           if (letterOpened) return;
+           letterOpened = true;
+
+           envelopeWrap.classList.add("opened");
+
+           setTimeout(() => {
+             envelopeCard.style.display = "none";
+             birthdayLetter.classList.remove("hidden-letter");
+             birthdayLetter.classList.add("reveal-letter");
+             goldBurst();
+
+             birthdayLetter.scrollIntoView({
+               behavior: "smooth",
+               block: "center"
+             });
+           }, 760);
+         }
+
+         if (envelopeWrap && openLetterBtn && birthdayLetter && envelopeCard) {
+           envelopeWrap.addEventListener("click", openLetter);
+           openLetterBtn.addEventListener("click", openLetter);
+         }
+
          
          updateCountdown();
          setInterval(updateCountdown, 1000);
