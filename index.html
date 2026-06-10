@@ -876,9 +876,9 @@
          font-family: Arial, Helvetica, sans-serif;
          text-transform: uppercase;
          }
-         .intro-birthday { animation: introText 3.15s ease forwards 0.35s; }
-         .intro-night { animation: introText 3.05s ease forwards 3.35s; }
-         .intro-venue { animation: introText 2.95s ease forwards 11.55s; }
+         .intro-birthday { animation: introText 4.25s ease forwards 0.35s; }
+         .intro-night { animation: introText 4.05s ease forwards 4.45s; }
+         .intro-venue { animation: introText 3.75s ease forwards 15.35s; }
          @keyframes introText {
          0% { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(5px); }
          20% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
@@ -891,7 +891,7 @@
          display: grid;
          place-items: center;
          opacity: 0;
-         animation: introPhotoScene 5.45s ease forwards 6.25s;
+         animation: introPhotoScene 6.60s ease forwards 8.55s;
          }
          .intro-photo {
          position: absolute;
@@ -903,7 +903,7 @@
          background-size: cover;
          background-position: center center;
          transform: scale(1.02);
-         animation: introPhotoMove 5.45s ease forwards 6.25s;
+         animation: introPhotoMove 6.60s ease forwards 8.55s;
          }
          .intro-photo-scene::before {
          content: "";
@@ -916,7 +916,7 @@
          inset 0 0 70px rgba(0,0,0,0.34),
          0 0 60px rgba(216,181,109,0.10);
          opacity: 0;
-         animation: introFrame 5.45s ease forwards 6.25s;
+         animation: introFrame 6.60s ease forwards 8.55s;
          pointer-events: none;
          }
          .intro-photo-scene::after {
@@ -928,7 +928,7 @@
          linear-gradient(118deg, transparent 22%, rgba(243,223,173,0.20) 42%, transparent 58%),
          radial-gradient(circle at 50% 35%, transparent 0%, rgba(0,0,0,0.13) 47%, rgba(0,0,0,0.52) 100%);
          opacity: 0;
-         animation: introPhotoGlow 5.45s ease forwards 6.25s;
+         animation: introPhotoGlow 6.60s ease forwards 8.55s;
          pointer-events: none;
          }
          @keyframes introPhotoScene {
@@ -965,7 +965,7 @@
          box-shadow: 0 24px 80px rgba(0,0,0,0.30);
          opacity: 0;
          transform: translateY(14px) scale(0.985);
-         animation: introReservationText 4.65s ease forwards 6.65s;
+         animation: introReservationText 5.65s ease forwards 9.05s;
          }
          .intro-reservation .eyebrow-mini {
          display: block;
@@ -1013,7 +1013,7 @@
          opacity: 0;
          transform: translateY(18px) scale(0.985);
          pointer-events: none;
-         animation: introEnterReveal 1.45s ease forwards 14.15s;
+         animation: introEnterReveal 1.55s ease forwards 18.45s;
          }
          .intro-enter-kicker {
          margin: 0 0 18px;
@@ -1534,7 +1534,7 @@
 
            introTimer = setTimeout(() => {
              introEnterCard.classList.add("ready");
-           }, 15450);
+           }, 20000);
          }
          
          musicBtn.addEventListener("click", async () => {
