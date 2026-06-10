@@ -2,7 +2,7 @@
 <html lang="en">
    <head>
       <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
       <title>Happy Birthday, Yuny</title>
       <style>
          :root {
@@ -22,6 +22,10 @@
          }
          html {
          scroll-behavior: smooth;
+         -webkit-text-size-adjust: 100%;
+         text-size-adjust: 100%;
+         overscroll-behavior: none;
+         touch-action: pan-y;
          }
          body {
          margin: 0;
@@ -33,6 +37,8 @@
          radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08), transparent 25%),
          linear-gradient(135deg, #050507 0%, #0d0c12 48%, #15100a 100%);
          overflow-x: hidden;
+         overscroll-behavior: none;
+         touch-action: pan-y;
          }
          body::before {
          content: "";
@@ -1028,6 +1034,41 @@
          const musicBtn = document.getElementById("musicBtn");
          const bgMusic = document.getElementById("bgMusic");
          const toast = document.getElementById("toast");
+         const EXPERIENCE_OPEN_KEY = "yunyBirthdayExperienceOpened";
+
+         function lockMobileZoom() {
+           document.addEventListener("gesturestart", (event) => {
+             event.preventDefault();
+           });
+
+           document.addEventListener("gesturechange", (event) => {
+             event.preventDefault();
+           });
+
+           document.addEventListener("gestureend", (event) => {
+             event.preventDefault();
+           });
+
+           document.addEventListener("touchmove", (event) => {
+             if (event.touches && event.touches.length > 1) {
+               event.preventDefault();
+             }
+           }, { passive: false });
+
+           let lastTouchEnd = 0;
+
+           document.addEventListener("touchend", (event) => {
+             const now = Date.now();
+
+             if (now - lastTouchEnd <= 300) {
+               event.preventDefault();
+             }
+
+             lastTouchEnd = now;
+           }, { passive: false });
+         }
+
+         lockMobileZoom();
          
          const daysEl = document.getElementById("days");
          const hoursEl = document.getElementById("hours");
@@ -1109,6 +1150,12 @@
          });
          
          openBtn.addEventListener("click", startExperience);
+
+         if (sessionStorage.getItem(EXPERIENCE_OPEN_KEY) === "1") {
+           gate.classList.add("hidden");
+           main.classList.add("visible");
+           musicBtn.textContent = "Play music";
+         }
 
 
          const envelopeWrap = document.getElementById("envelopeWrap");
