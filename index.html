@@ -879,7 +879,6 @@
          .intro-birthday { animation: introText 3.15s ease forwards 0.35s; }
          .intro-night { animation: introText 3.05s ease forwards 3.35s; }
          .intro-venue { animation: introText 2.95s ease forwards 11.55s; }
-         .intro-final { animation: introText 2.45s ease forwards 13.85s; }
          @keyframes introText {
          0% { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(5px); }
          20% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
@@ -1004,6 +1003,90 @@
          78% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
          100% { opacity: 0; transform: translateY(-12px) scale(1.01); filter: blur(4px); }
          }
+
+         .intro-enter-card {
+         position: absolute;
+         left: 24px;
+         right: 24px;
+         z-index: 5;
+         text-align: center;
+         opacity: 0;
+         transform: translateY(18px) scale(0.985);
+         pointer-events: none;
+         animation: introEnterReveal 1.45s ease forwards 14.15s;
+         }
+         .intro-enter-kicker {
+         margin: 0 0 18px;
+         color: rgba(247,241,232,0.62);
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: clamp(10px, 2.8vw, 14px);
+         letter-spacing: 0.24em;
+         text-transform: uppercase;
+         }
+         .intro-enter-btn {
+         min-width: 168px;
+         padding: 15px 28px;
+         border-radius: 999px;
+         border: 1px solid rgba(243,223,173,0.42);
+         color: #17110a;
+         background:
+         linear-gradient(135deg, #f6dfaa, #c99f4b);
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 13px;
+         font-weight: 800;
+         letter-spacing: 0.18em;
+         text-transform: uppercase;
+         box-shadow:
+         0 18px 48px rgba(216, 181, 109, 0.26),
+         0 0 0 6px rgba(216, 181, 109, 0.055);
+         transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+         }
+         .intro-enter-btn:hover,
+         .intro-enter-btn:active {
+         transform: translateY(-2px) scale(1.02);
+         box-shadow:
+         0 24px 64px rgba(216, 181, 109, 0.34),
+         0 0 0 8px rgba(216, 181, 109, 0.075);
+         filter: brightness(1.04);
+         }
+         .intro-enter-card.ready {
+         pointer-events: auto;
+         }
+         @keyframes introEnterReveal {
+         0% { opacity: 0; transform: translateY(18px) scale(0.985); filter: blur(6px); }
+         100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+         }
+         .intro-overlay.entering-main::before {
+         animation: introOpenFlash 900ms ease forwards;
+         }
+         .intro-overlay.entering-main .intro-stage {
+         animation: introStageOpen 900ms ease forwards;
+         }
+         @keyframes introOpenFlash {
+         0% { opacity: 0.58; transform: translate3d(2%, 1%, 0) scale(1.22); }
+         42% { opacity: 1; transform: translate3d(0, 0, 0) scale(1.36); filter: blur(10px); }
+         100% { opacity: 0; transform: translate3d(0, -2%, 0) scale(1.46); filter: blur(24px); }
+         }
+         @keyframes introStageOpen {
+         0% { opacity: 1; transform: scale(1); filter: blur(0); }
+         54% { opacity: 1; transform: scale(1.018); filter: blur(0); }
+         100% { opacity: 0; transform: scale(1.04); filter: blur(8px); }
+         }
+         .back-gate-btn {
+         position: fixed;
+         left: 14px;
+         top: 14px;
+         z-index: 40;
+         padding: 10px 14px;
+         border-radius: 999px;
+         background: rgba(7, 7, 10, 0.62);
+         color: var(--text);
+         border: 1px solid rgba(255,255,255,0.12);
+         backdrop-filter: blur(14px);
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 12px;
+         }
+
          .skip-intro-btn {
          position: absolute;
          right: 16px;
@@ -1082,12 +1165,16 @@
                   </div>
                </div>
                <div class="intro-line intro-venue"><strong>Tom's by<br />Tom Aikens</strong><span class="small-line">The Langham Jakarta</span></div>
-               <div class="intro-line intro-final"><strong>Open</strong><span class="small-line">your birthday card</span></div>
+               <div class="intro-enter-card" id="introEnterCard">
+                  <p class="intro-enter-kicker">Your birthday card is ready</p>
+                  <button class="intro-enter-btn" id="introEnterBtn" type="button">Open</button>
+               </div>
                <button class="skip-intro-btn" id="skipIntroBtn" type="button">Skip</button>
             </div>
          </section>
          <main class="main" id="main">
             <button class="music-btn" id="musicBtn">Music: On</button>
+            <button class="back-gate-btn" id="backGateBtn" type="button">Back</button>
             <section class="first-section hero-note">
                <div class="container">
                   <div class="glass-card">
@@ -1314,8 +1401,11 @@
          const main = document.getElementById("main");
          const introOverlay = document.getElementById("introOverlay");
          const skipIntroBtn = document.getElementById("skipIntroBtn");
+         const introEnterCard = document.getElementById("introEnterCard");
+         const introEnterBtn = document.getElementById("introEnterBtn");
          const openBtn = document.getElementById("openBtn");
          const musicBtn = document.getElementById("musicBtn");
+         const backGateBtn = document.getElementById("backGateBtn");
          const bgMusic = document.getElementById("bgMusic");
          const toast = document.getElementById("toast");
          const EXPERIENCE_OPEN_KEY = "yunyBirthdayExperienceOpened";
@@ -1396,21 +1486,33 @@
          }
          
          function revealMain() {
+           introOverlay.classList.add("entering-main");
            introOverlay.classList.add("fade-out");
-           main.classList.add("visible");
 
            setTimeout(() => {
-             introOverlay.classList.remove("visible");
-             introOverlay.classList.remove("fade-out");
-             introOverlay.setAttribute("aria-hidden", "true");
-           }, 650);
-
-           setTimeout(() => {
+             main.classList.add("visible");
              window.scrollTo({
                top: 0,
                behavior: "smooth"
              });
-           }, 120);
+           }, 420);
+
+           setTimeout(() => {
+             introOverlay.classList.remove("visible");
+             introOverlay.classList.remove("fade-out");
+             introOverlay.classList.remove("entering-main");
+             introOverlay.setAttribute("aria-hidden", "true");
+           }, 980);
+         }
+
+         function returnToGate() {
+           sessionStorage.removeItem(EXPERIENCE_OPEN_KEY);
+           clearTimeout(introTimer);
+           main.classList.remove("visible");
+           introOverlay.classList.remove("visible", "fade-out", "entering-main");
+           introOverlay.setAttribute("aria-hidden", "true");
+           gate.classList.remove("hidden");
+           window.scrollTo({ top: 0, behavior: "smooth" });
          }
 
          let introTimer;
@@ -1420,6 +1522,7 @@
            gate.classList.add("hidden");
            introOverlay.classList.add("visible");
            introOverlay.setAttribute("aria-hidden", "false");
+           introEnterCard.classList.remove("ready");
          
            try {
              bgMusic.volume = 0.36;
@@ -1429,7 +1532,9 @@
              musicBtn.textContent = "Play music";
            }
 
-           introTimer = setTimeout(revealMain, 15700);
+           introTimer = setTimeout(() => {
+             introEnterCard.classList.add("ready");
+           }, 15450);
          }
          
          musicBtn.addEventListener("click", async () => {
@@ -1452,8 +1557,16 @@
 
          skipIntroBtn.addEventListener("click", () => {
            clearTimeout(introTimer);
+           introEnterCard.classList.add("ready");
            revealMain();
          });
+
+         introEnterBtn.addEventListener("click", () => {
+           clearTimeout(introTimer);
+           revealMain();
+         });
+
+         backGateBtn.addEventListener("click", returnToGate);
 
          if (sessionStorage.getItem(EXPERIENCE_OPEN_KEY) === "1") {
            gate.classList.add("hidden");
