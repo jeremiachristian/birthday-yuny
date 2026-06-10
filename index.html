@@ -756,6 +756,190 @@
          }
          }
 
+
+
+         .intro-overlay {
+         position: fixed;
+         inset: 0;
+         z-index: 35;
+         display: none;
+         align-items: center;
+         justify-content: center;
+         min-height: 100vh;
+         overflow: hidden;
+         background:
+         radial-gradient(circle at 50% 12%, rgba(216, 181, 109, 0.14), transparent 28%),
+         radial-gradient(circle at 10% 88%, rgba(243, 223, 173, 0.09), transparent 30%),
+         linear-gradient(145deg, #030305 0%, #090910 54%, #120d08 100%);
+         opacity: 0;
+         visibility: hidden;
+         transition: opacity 600ms ease, visibility 600ms ease;
+         }
+         .intro-overlay.visible {
+         display: flex;
+         opacity: 1;
+         visibility: visible;
+         }
+         .intro-overlay.fade-out {
+         opacity: 0;
+         visibility: hidden;
+         }
+         .intro-overlay::before {
+         content: "";
+         position: absolute;
+         inset: -18%;
+         background:
+         linear-gradient(115deg, transparent 8%, rgba(216,181,109,0.09) 28%, transparent 48%),
+         radial-gradient(circle at 72% 38%, rgba(243,223,173,0.10), transparent 24%);
+         filter: blur(16px);
+         animation: introLightMove 11s ease-in-out forwards;
+         }
+         .intro-overlay::after {
+         content: "";
+         position: absolute;
+         inset: 0;
+         background-image:
+         linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+         linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+         background-size: 48px 48px;
+         opacity: 0.22;
+         mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
+         }
+         @keyframes introLightMove {
+         0% { transform: translate3d(-4%, 2%, 0) scale(1); opacity: 0.55; }
+         48% { transform: translate3d(4%, -2%, 0) scale(1.08); opacity: 0.88; }
+         100% { transform: translate3d(0, 0, 0) scale(1.14); opacity: 0.58; }
+         }
+         .intro-stage {
+         position: relative;
+         z-index: 2;
+         width: 100%;
+         height: 100vh;
+         display: grid;
+         place-items: center;
+         padding: 26px;
+         }
+         .intro-line {
+         position: absolute;
+         left: 24px;
+         right: 24px;
+         text-align: center;
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: clamp(13px, 3.3vw, 18px);
+         letter-spacing: 0.26em;
+         text-transform: uppercase;
+         color: rgba(247, 241, 232, 0.88);
+         text-shadow: 0 0 28px rgba(216,181,109,0.18);
+         opacity: 0;
+         transform: translateY(8px);
+         }
+         .intro-line strong {
+         display: block;
+         margin-bottom: 10px;
+         color: var(--gold-soft);
+         font-family: Georgia, "Times New Roman", serif;
+         font-size: clamp(20px, 5.5vw, 34px);
+         font-weight: 500;
+         letter-spacing: 0.13em;
+         }
+         .intro-date { animation: introText 2.1s ease forwards 0.25s; }
+         .intro-venue { animation: introText 2.2s ease forwards 2.35s; }
+         .intro-final { animation: introText 1.95s ease forwards 8.55s; }
+         @keyframes introText {
+         0% { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+         18% { opacity: 1; transform: translateY(0); filter: blur(0); }
+         72% { opacity: 1; transform: translateY(0); filter: blur(0); }
+         100% { opacity: 0; transform: translateY(-8px); filter: blur(2px); }
+         }
+         .intro-photo-scene {
+         position: absolute;
+         inset: 0;
+         display: grid;
+         place-items: center;
+         opacity: 0;
+         animation: introPhotoScene 3.35s ease forwards 4.45s;
+         }
+         .intro-photo {
+         position: absolute;
+         inset: 0;
+         background-image:
+         linear-gradient(180deg, rgba(0,0,0,0.54), rgba(0,0,0,0.22) 44%, rgba(0,0,0,0.66)),
+         url("us.jpg");
+         background-size: cover;
+         background-position: center center;
+         transform: scale(1.035);
+         animation: introPhotoMove 3.35s ease forwards 4.45s;
+         }
+         .intro-photo-scene::after {
+         content: "";
+         position: absolute;
+         inset: 0;
+         background:
+         radial-gradient(circle at 50% 34%, transparent 0%, rgba(0,0,0,0.16) 48%, rgba(0,0,0,0.48) 100%),
+         linear-gradient(90deg, rgba(0,0,0,0.36), transparent 34%, transparent 66%, rgba(0,0,0,0.36));
+         }
+         @keyframes introPhotoScene {
+         0% { opacity: 0; }
+         14% { opacity: 1; }
+         82% { opacity: 1; }
+         100% { opacity: 0; }
+         }
+         @keyframes introPhotoMove {
+         0% { transform: scale(1.035); }
+         100% { transform: scale(1.095); }
+         }
+         .intro-reservation {
+         position: relative;
+         z-index: 3;
+         text-align: center;
+         padding: 20px 22px;
+         opacity: 0;
+         transform: translateY(10px);
+         animation: introReservationText 2.75s ease forwards 4.85s;
+         }
+         .intro-reservation .table {
+         display: block;
+         color: var(--gold-soft);
+         font-family: Georgia, "Times New Roman", serif;
+         font-size: clamp(28px, 8vw, 48px);
+         line-height: 1;
+         font-weight: 500;
+         letter-spacing: 0.08em;
+         text-transform: uppercase;
+         text-shadow: 0 8px 36px rgba(0,0,0,0.5);
+         }
+         .intro-reservation .time {
+         display: block;
+         margin-top: 14px;
+         color: rgba(247,241,232,0.88);
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: clamp(12px, 3.2vw, 16px);
+         letter-spacing: 0.30em;
+         text-transform: uppercase;
+         text-shadow: 0 8px 30px rgba(0,0,0,0.5);
+         }
+         @keyframes introReservationText {
+         0% { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+         18% { opacity: 1; transform: translateY(0); filter: blur(0); }
+         76% { opacity: 1; transform: translateY(0); filter: blur(0); }
+         100% { opacity: 0; transform: translateY(-8px); filter: blur(2px); }
+         }
+         .skip-intro-btn {
+         position: absolute;
+         right: 16px;
+         bottom: calc(16px + env(safe-area-inset-bottom));
+         z-index: 6;
+         padding: 10px 13px;
+         border-radius: 999px;
+         border: 1px solid rgba(255,255,255,0.12);
+         background: rgba(7, 7, 10, 0.42);
+         color: rgba(247,241,232,0.74);
+         backdrop-filter: blur(12px);
+         font-size: 11px;
+         letter-spacing: 0.08em;
+         text-transform: uppercase;
+         }
+
          @media (max-width: 420px) {
          .gate-card {
          padding: 32px 20px;
@@ -802,6 +986,22 @@
                <div class="hint">
                   - tap once -
                </div>
+            </div>
+         </section>
+
+         <section class="intro-overlay" id="introOverlay" aria-hidden="true">
+            <div class="intro-stage">
+               <div class="intro-line intro-date">15 JUNE 2026</div>
+               <div class="intro-line intro-venue">TOM'S BY TOM AIKENS</div>
+               <div class="intro-photo-scene">
+                  <div class="intro-photo"></div>
+                  <div class="intro-reservation">
+                     <span class="table">TABLE FOR TWO</span>
+                     <span class="time">9:00 PM</span>
+                  </div>
+               </div>
+               <div class="intro-line intro-final"><strong>FOR YUNY</strong>OPEN</div>
+               <button class="skip-intro-btn" id="skipIntroBtn" type="button">Skip</button>
             </div>
          </section>
          <main class="main" id="main">
@@ -1030,6 +1230,8 @@
          
          const gate = document.getElementById("gate");
          const main = document.getElementById("main");
+         const introOverlay = document.getElementById("introOverlay");
+         const skipIntroBtn = document.getElementById("skipIntroBtn");
          const openBtn = document.getElementById("openBtn");
          const musicBtn = document.getElementById("musicBtn");
          const bgMusic = document.getElementById("bgMusic");
@@ -1111,26 +1313,41 @@
            }, 2400);
          }
          
-         async function startExperience() {
-           gate.classList.add("hidden");
+         function revealMain() {
+           introOverlay.classList.add("fade-out");
            main.classList.add("visible");
-         
-           try {
-             bgMusic.volume = 0.42;
-             await bgMusic.play();
-             musicBtn.textContent = "Music: On";
-             showToast("Music started. See you tonight, babe.");
-           } catch (error) {
-             musicBtn.textContent = "Play music";
-             showToast("Tap Music to play the jazz.");
-           }
-         
+
+           setTimeout(() => {
+             introOverlay.classList.remove("visible");
+             introOverlay.classList.remove("fade-out");
+             introOverlay.setAttribute("aria-hidden", "true");
+           }, 650);
+
            setTimeout(() => {
              window.scrollTo({
                top: 0,
                behavior: "smooth"
              });
-           }, 100);
+           }, 120);
+         }
+
+         let introTimer;
+
+         async function startExperience() {
+           sessionStorage.setItem(EXPERIENCE_OPEN_KEY, "1");
+           gate.classList.add("hidden");
+           introOverlay.classList.add("visible");
+           introOverlay.setAttribute("aria-hidden", "false");
+         
+           try {
+             bgMusic.volume = 0.36;
+             await bgMusic.play();
+             musicBtn.textContent = "Music: On";
+           } catch (error) {
+             musicBtn.textContent = "Play music";
+           }
+
+           introTimer = setTimeout(revealMain, 10800);
          }
          
          musicBtn.addEventListener("click", async () => {
@@ -1151,8 +1368,15 @@
          
          openBtn.addEventListener("click", startExperience);
 
+         skipIntroBtn.addEventListener("click", () => {
+           clearTimeout(introTimer);
+           revealMain();
+         });
+
          if (sessionStorage.getItem(EXPERIENCE_OPEN_KEY) === "1") {
            gate.classList.add("hidden");
+           introOverlay.classList.remove("visible");
+           introOverlay.setAttribute("aria-hidden", "true");
            main.classList.add("visible");
            musicBtn.textContent = "Play music";
          }
