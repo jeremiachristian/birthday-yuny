@@ -876,12 +876,12 @@
          font-family: Arial, Helvetica, sans-serif;
          text-transform: uppercase;
          }
-         .intro-birthday { animation: introText 4.25s ease forwards 0.35s; }
-         .intro-night { animation: introText 4.05s ease forwards 4.45s; }
-         .intro-venue { animation: introText 3.75s ease forwards 15.35s; }
+         .intro-overlay.playing .intro-birthday { animation: introText 4.25s ease forwards 0.55s; }
+         .intro-overlay.playing .intro-night { animation: introText 4.05s ease forwards 4.65s; }
+         .intro-overlay.playing .intro-venue { animation: introText 3.75s ease forwards 15.55s; }
          @keyframes introText {
-         0% { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(5px); }
-         20% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+         0%, 10% { opacity: 0; transform: translateY(18px) scale(0.982); filter: blur(8px); }
+         30% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
          75% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
          100% { opacity: 0; transform: translateY(-12px) scale(1.012); filter: blur(4px); }
          }
@@ -891,7 +891,7 @@
          display: grid;
          place-items: center;
          opacity: 0;
-         animation: introPhotoScene 6.60s ease forwards 8.55s;
+         animation: none;
          }
          .intro-photo {
          position: absolute;
@@ -903,7 +903,7 @@
          background-size: cover;
          background-position: center center;
          transform: scale(1.02);
-         animation: introPhotoMove 6.60s ease forwards 8.55s;
+         animation: none;
          }
          .intro-photo-scene::before {
          content: "";
@@ -916,7 +916,7 @@
          inset 0 0 70px rgba(0,0,0,0.34),
          0 0 60px rgba(216,181,109,0.10);
          opacity: 0;
-         animation: introFrame 6.60s ease forwards 8.55s;
+         animation: none;
          pointer-events: none;
          }
          .intro-photo-scene::after {
@@ -928,9 +928,13 @@
          linear-gradient(118deg, transparent 22%, rgba(243,223,173,0.20) 42%, transparent 58%),
          radial-gradient(circle at 50% 35%, transparent 0%, rgba(0,0,0,0.13) 47%, rgba(0,0,0,0.52) 100%);
          opacity: 0;
-         animation: introPhotoGlow 6.60s ease forwards 8.55s;
+         animation: none;
          pointer-events: none;
          }
+         .intro-overlay.playing .intro-photo-scene { animation: introPhotoScene 6.60s ease forwards 8.75s; }
+         .intro-overlay.playing .intro-photo { animation: introPhotoMove 6.60s ease forwards 8.75s; }
+         .intro-overlay.playing .intro-photo-scene::before { animation: introFrame 6.60s ease forwards 8.75s; }
+         .intro-overlay.playing .intro-photo-scene::after { animation: introPhotoGlow 6.60s ease forwards 8.75s; }
          @keyframes introPhotoScene {
          0% { opacity: 0; }
          12% { opacity: 1; }
@@ -965,7 +969,7 @@
          box-shadow: 0 24px 80px rgba(0,0,0,0.30);
          opacity: 0;
          transform: translateY(14px) scale(0.985);
-         animation: introReservationText 5.65s ease forwards 9.05s;
+         animation: none;
          }
          .intro-reservation .eyebrow-mini {
          display: block;
@@ -997,6 +1001,7 @@
          text-transform: uppercase;
          text-shadow: 0 8px 30px rgba(0,0,0,0.55);
          }
+         .intro-overlay.playing .intro-reservation { animation: introReservationText 5.65s ease forwards 9.25s; }
          @keyframes introReservationText {
          0% { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(5px); }
          17% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
@@ -1013,7 +1018,7 @@
          opacity: 0;
          transform: translateY(18px) scale(0.985);
          pointer-events: none;
-         animation: introEnterReveal 1.55s ease forwards 18.45s;
+         animation: none;
          }
          .intro-enter-kicker {
          margin: 0 0 18px;
@@ -1049,6 +1054,7 @@
          0 0 0 8px rgba(216, 181, 109, 0.075);
          filter: brightness(1.04);
          }
+         .intro-overlay.playing .intro-enter-card { animation: introEnterReveal 1.55s ease forwards 18.65s; }
          .intro-enter-card.ready {
          pointer-events: auto;
          }
@@ -1499,8 +1505,10 @@
 
            setTimeout(() => {
              introOverlay.classList.remove("visible");
+             introOverlay.classList.remove("playing");
              introOverlay.classList.remove("fade-out");
              introOverlay.classList.remove("entering-main");
+             introEnterCard.classList.remove("ready");
              introOverlay.setAttribute("aria-hidden", "true");
            }, 980);
          }
@@ -1509,7 +1517,8 @@
            sessionStorage.removeItem(EXPERIENCE_OPEN_KEY);
            clearTimeout(introTimer);
            main.classList.remove("visible");
-           introOverlay.classList.remove("visible", "fade-out", "entering-main");
+           introOverlay.classList.remove("visible", "playing", "fade-out", "entering-main");
+           introEnterCard.classList.remove("ready");
            introOverlay.setAttribute("aria-hidden", "true");
            gate.classList.remove("hidden");
            window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1519,10 +1528,19 @@
 
          async function startExperience() {
            sessionStorage.setItem(EXPERIENCE_OPEN_KEY, "1");
+           clearTimeout(introTimer);
            gate.classList.add("hidden");
-           introOverlay.classList.add("visible");
-           introOverlay.setAttribute("aria-hidden", "false");
+           main.classList.remove("visible");
            introEnterCard.classList.remove("ready");
+           introOverlay.classList.remove("visible", "playing", "fade-out", "entering-main");
+           introOverlay.setAttribute("aria-hidden", "false");
+
+           // Force a clean animation restart, especially on mobile Safari/Chrome.
+           void introOverlay.offsetWidth;
+           introOverlay.classList.add("visible");
+           requestAnimationFrame(() => {
+             introOverlay.classList.add("playing");
+           });
          
            try {
              bgMusic.volume = 0.36;
@@ -1534,7 +1552,7 @@
 
            introTimer = setTimeout(() => {
              introEnterCard.classList.add("ready");
-           }, 20000);
+           }, 20250);
          }
          
          musicBtn.addEventListener("click", async () => {
