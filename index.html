@@ -1499,34 +1499,65 @@
          }
          }
 
+         /* === FINAL BEST: dark rose-gold luxury, lifted gate, brighter sparkle ===
+            Goal: keep the premium dark cinematic feel, but make the first impression
+            more feminine, brighter, and more birthday-magical without going pastel. */
+         :root {
+         --bg: #12050c;
+         --bg-soft: #24101a;
+         --card: rgba(255, 235, 228, 0.105);
+         --card-strong: rgba(255, 225, 218, 0.165);
+         --gold: #d7a85d;
+         --gold-soft: #ffe4b7;
+         --rose: #f0a8c0;
+         --rose-soft: #ffd2dc;
+         --rose-glow: #ff9fbe;
+         --rose-deep: #9b3f65;
+         --text: #fff7ef;
+         --muted: #dec1bd;
+         --line: rgba(255, 204, 220, 0.34);
+         --shadow: rgba(36, 5, 19, 0.58);
+         }
 
-         /* === Preview tweak: brighter gate + richer rose/champagne glow ===
-            Keeps the dark rose-gold luxury theme, but makes the first impression
-            slightly brighter, cuter, and more sparkling without going pastel. */
          body {
          background:
-         radial-gradient(circle at 16% 7%, rgba(255, 193, 213, 0.29), transparent 27%),
-         radial-gradient(circle at 82% 13%, rgba(255, 226, 184, 0.22), transparent 26%),
-         radial-gradient(circle at 58% 86%, rgba(177, 82, 115, 0.18), transparent 35%),
-         radial-gradient(circle at 50% 38%, rgba(255, 240, 216, 0.045), transparent 45%),
-         linear-gradient(135deg, #0a0408 0%, #170812 34%, #2a1020 68%, #13070b 100%);
+         radial-gradient(circle at 12% 4%, rgba(255, 164, 198, 0.32), transparent 29%),
+         radial-gradient(circle at 86% 10%, rgba(255, 229, 184, 0.25), transparent 27%),
+         radial-gradient(circle at 55% 86%, rgba(179, 70, 115, 0.19), transparent 36%),
+         radial-gradient(circle at 50% 38%, rgba(255, 245, 225, 0.045), transparent 43%),
+         linear-gradient(135deg, #070305 0%, #150711 31%, #2b0f1f 65%, #120708 100%);
+         }
+
+         body::before {
+         background-image:
+         linear-gradient(rgba(255,228,183,0.035) 1px, transparent 1px),
+         linear-gradient(90deg, rgba(255,178,207,0.030) 1px, transparent 1px);
+         opacity: 0.98;
          }
 
          body::after {
          opacity: 1;
          background:
-         radial-gradient(circle at 12% 24%, rgba(255,212,221,0.16) 0 2px, transparent 4px),
-         radial-gradient(circle at 78% 18%, rgba(255,224,178,0.16) 0 1.5px, transparent 4px),
-         radial-gradient(circle at 86% 72%, rgba(239,182,201,0.14) 0 2px, transparent 5px),
-         radial-gradient(circle at 28% 82%, rgba(255,235,210,0.13) 0 1.5px, transparent 4px);
-         background-size: 180px 180px, 220px 220px, 250px 250px, 300px 300px;
+         radial-gradient(circle at 12% 24%, rgba(255,210,220,0.18) 0 2px, transparent 4px),
+         radial-gradient(circle at 78% 18%, rgba(255,228,183,0.17) 0 1.5px, transparent 4px),
+         radial-gradient(circle at 86% 72%, rgba(240,168,192,0.15) 0 2px, transparent 5px),
+         radial-gradient(circle at 28% 82%, rgba(255,245,225,0.14) 0 1.5px, transparent 4px);
+         background-size: 170px 170px, 214px 214px, 248px 248px, 292px 292px;
          }
 
          .sparkle {
+         filter: saturate(1.15);
          box-shadow:
-         0 0 14px rgba(255, 224, 178, 1),
-         0 0 34px rgba(239, 182, 201, 0.56),
-         0 0 58px rgba(215, 168, 93, 0.25);
+         0 0 14px rgba(255, 228, 183, 1),
+         0 0 34px rgba(255, 159, 190, 0.58),
+         0 0 62px rgba(215, 168, 93, 0.28);
+         }
+
+         .sparkle:nth-child(3n) {
+         box-shadow:
+         0 0 14px rgba(255, 210, 220, 1),
+         0 0 34px rgba(255, 159, 190, 0.60),
+         0 0 56px rgba(215, 168, 93, 0.18);
          }
 
          .gate {
@@ -1541,50 +1572,50 @@
          border-radius: 999px;
          pointer-events: none;
          z-index: 1;
-         filter: blur(26px);
-         animation: gateRoseFloat 9s ease-in-out infinite alternate;
+         filter: blur(28px);
+         animation: finalGateGlowMove 9s ease-in-out infinite alternate;
          }
 
          .gate::before {
-         width: 310px;
-         height: 310px;
-         left: -128px;
-         top: 12%;
-         background: radial-gradient(circle, rgba(255, 196, 214, 0.34), rgba(215, 168, 93, 0.11) 48%, transparent 70%);
+         width: 340px;
+         height: 340px;
+         left: -138px;
+         top: 8%;
+         background: radial-gradient(circle, rgba(255, 173, 204, 0.42), rgba(215, 168, 93, 0.13) 48%, transparent 72%);
          }
 
          .gate::after {
-         width: 270px;
-         height: 270px;
-         right: -120px;
-         bottom: 11%;
-         background: radial-gradient(circle, rgba(255, 231, 193, 0.28), rgba(239, 182, 201, 0.15) 45%, transparent 72%);
-         animation-delay: -3.5s;
+         width: 300px;
+         height: 300px;
+         right: -130px;
+         bottom: 8%;
+         background: radial-gradient(circle, rgba(255, 235, 198, 0.34), rgba(255, 159, 190, 0.18) 46%, transparent 74%);
+         animation-delay: -3.4s;
          }
 
-         @keyframes gateRoseFloat {
-         from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.70; }
-         to { transform: translate3d(26px, -22px, 0) scale(1.16); opacity: 1; }
+         @keyframes finalGateGlowMove {
+         from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.72; }
+         to { transform: translate3d(28px, -24px, 0) scale(1.18); opacity: 1; }
          }
 
          .gate-card {
          position: relative;
          z-index: 2;
+         border-color: rgba(255, 207, 222, 0.42);
          background:
-         radial-gradient(circle at 22% 8%, rgba(255, 218, 226, 0.16), transparent 32%),
-         radial-gradient(circle at 82% 92%, rgba(255, 224, 178, 0.13), transparent 34%),
-         linear-gradient(145deg, rgba(255,245,238,0.145), rgba(255,205,221,0.050)),
-         rgba(18, 8, 14, 0.76);
-         border-color: rgba(255, 206, 222, 0.34);
+         radial-gradient(circle at 18% 10%, rgba(255, 220, 228, 0.19), transparent 31%),
+         radial-gradient(circle at 83% 91%, rgba(255, 229, 188, 0.17), transparent 35%),
+         linear-gradient(145deg, rgba(255,247,240,0.165), rgba(255,198,218,0.058)),
+         rgba(18, 7, 14, 0.78);
          box-shadow:
-         0 30px 96px rgba(32, 6, 18, 0.58),
-         0 0 0 1px rgba(255, 229, 196, 0.075),
-         0 0 76px rgba(239, 182, 201, 0.13),
-         0 0 110px rgba(215, 168, 93, 0.055);
+         0 32px 100px rgba(36, 5, 19, 0.60),
+         0 0 0 1px rgba(255, 234, 202, 0.090),
+         0 0 86px rgba(255, 159, 190, 0.16),
+         0 0 118px rgba(215, 168, 93, 0.070);
          }
 
          .gate-card::before {
-         background: linear-gradient(120deg, transparent, rgba(255,224,178,0.25), rgba(255,198,217,0.22), transparent);
+         background: linear-gradient(120deg, transparent, rgba(255,228,183,0.30), rgba(255,176,205,0.25), transparent);
          }
 
          .gate-card::after {
@@ -1593,8 +1624,10 @@
          inset: 1px;
          border-radius: inherit;
          pointer-events: none;
-         border: 1px solid rgba(255, 244, 236, 0.055);
-         box-shadow: inset 0 1px 0 rgba(255,255,255,0.075);
+         border: 1px solid rgba(255, 247, 239, 0.070);
+         box-shadow:
+         inset 0 1px 0 rgba(255,255,255,0.085),
+         inset 0 -18px 42px rgba(255, 159, 190, 0.030);
          }
 
          .gate-card > * {
@@ -1602,24 +1635,143 @@
          z-index: 2;
          }
 
-         .gate-card .heart {
-         color: #ffd4dd;
-         text-shadow:
-         0 0 24px rgba(255, 212, 221, 0.45),
-         0 0 34px rgba(255, 224, 178, 0.18);
+         .gate-card .eyebrow {
+         color: #f5acc5;
+         text-shadow: 0 0 18px rgba(255, 159, 190, 0.24);
          }
 
          .gate-card h1 {
+         background: linear-gradient(180deg, #fff8ef 0%, #ffe2e9 39%, #ffc4d4 66%, #ffe5b9 100%);
+         -webkit-background-clip: text;
+         background-clip: text;
+         color: transparent;
+         -webkit-text-fill-color: transparent;
+         filter: drop-shadow(0 0 22px rgba(255, 159, 190, 0.16)) drop-shadow(0 0 28px rgba(215, 168, 93, 0.08));
+         }
+
+         .gate-card .heart {
+         color: #ffd2dc;
+         -webkit-text-fill-color: #ffd2dc;
          text-shadow:
-         0 0 28px rgba(255, 212, 221, 0.10),
-         0 0 38px rgba(215, 168, 93, 0.08);
+         0 0 24px rgba(255, 210, 220, 0.55),
+         0 0 34px rgba(255, 228, 183, 0.22);
+         }
+
+         .gate-card .subtitle {
+         color: rgba(255, 242, 235, 0.72);
+         }
+
+         .gate-card .subtitle em {
+         color: #ffe4b7;
+         text-shadow: 0 0 20px rgba(215, 168, 93, 0.16);
+         }
+
+         .gate-card .hint {
+         color: rgba(255, 210, 220, 0.56);
+         }
+
+         .open-btn,
+         .map-btn,
+         .open-letter-btn,
+         .intro-enter-btn {
+         color: #2b1018;
+         background: linear-gradient(135deg, #fff4dc 0%, #ffd1dc 42%, #f1acc4 70%, #d7a85d 100%);
+         box-shadow:
+         0 17px 46px rgba(255, 159, 190, 0.28),
+         0 13px 38px rgba(215, 168, 93, 0.24),
+         0 0 0 7px rgba(255, 210, 220, 0.060);
          }
 
          .open-btn {
+         position: relative;
+         overflow: hidden;
+         }
+
+         .open-btn::before {
+         content: "";
+         position: absolute;
+         inset: -1px;
+         background: linear-gradient(110deg, transparent 0 24%, rgba(255,255,255,0.46) 43%, transparent 62%);
+         transform: translateX(-130%);
+         animation: finalButtonGleam 3.4s ease-in-out infinite;
+         pointer-events: none;
+         }
+
+         @keyframes finalButtonGleam {
+         0%, 45% { transform: translateX(-130%); opacity: 0; }
+         58% { opacity: 1; }
+         82%, 100% { transform: translateX(130%); opacity: 0; }
+         }
+
+         .intro-overlay {
+         background:
+         radial-gradient(circle at 48% 7%, rgba(255, 210, 220, 0.22), transparent 26%),
+         radial-gradient(circle at 17% 78%, rgba(215, 168, 93, 0.15), transparent 31%),
+         radial-gradient(circle at 87% 62%, rgba(255, 159, 190, 0.095), transparent 25%),
+         linear-gradient(145deg, #060304 0%, #130711 41%, #2a0e1d 72%, #110707 100%);
+         }
+
+         .intro-overlay::before {
+         background:
+         linear-gradient(112deg, transparent 5%, rgba(255,228,183,0.16) 22%, rgba(255,159,190,0.12) 30%, transparent 46%),
+         radial-gradient(circle at 72% 34%, rgba(255,210,220,0.20), transparent 23%),
+         radial-gradient(circle at 26% 70%, rgba(215,168,93,0.15), transparent 29%);
+         }
+
+         .intro-line strong,
+         .intro-reservation .table {
+         color: #ffe5b9;
+         text-shadow:
+         0 12px 42px rgba(0,0,0,0.42),
+         0 0 30px rgba(255,159,190,0.24),
+         0 0 25px rgba(215,168,93,0.20);
+         }
+
+         .intro-line .small-line,
+         .intro-enter-kicker,
+         .intro-reservation .eyebrow-mini {
+         color: rgba(255, 210, 220, 0.76);
+         }
+
+         .intro-photo {
+         background-image:
+         linear-gradient(180deg, rgba(22,5,14,0.66), rgba(22,5,14,0.18) 42%, rgba(22,5,14,0.72)),
+         linear-gradient(90deg, rgba(22,5,14,0.46), transparent 29%, transparent 71%, rgba(22,5,14,0.46)),
+         radial-gradient(circle at 50% 37%, rgba(255, 159, 190, 0.10), transparent 34%),
+         url("us.jpg");
+         }
+
+         .intro-reservation {
+         background:
+         linear-gradient(145deg, rgba(30,8,18,0.42), rgba(255,198,218,0.052));
+         border-color: rgba(255, 210, 220, 0.26);
          box-shadow:
-         0 16px 44px rgba(239, 182, 201, 0.25),
-         0 12px 36px rgba(215, 168, 93, 0.22),
-         0 0 0 7px rgba(255, 212, 221, 0.055);
+         0 24px 80px rgba(24, 6, 16, 0.38),
+         0 0 50px rgba(255,159,190,0.12),
+         0 0 34px rgba(215,168,93,0.07);
+         }
+
+         .main .glass-card {
+         background:
+         linear-gradient(145deg, rgba(255,238,231,0.115), rgba(255,198,218,0.036)),
+         linear-gradient(180deg, rgba(255,159,190,0.050), transparent 46%),
+         rgba(18, 8, 14, 0.76);
+         box-shadow:
+         0 24px 80px rgba(32, 6, 18, 0.50),
+         inset 0 1px 0 rgba(255,255,255,0.08),
+         0 0 0 1px rgba(255,228,183,0.060),
+         0 0 56px rgba(255,159,190,0.085);
+         }
+
+         .section-title,
+         .count-title,
+         .envelope-title,
+         .signature,
+         .closing-card h2 {
+         color: #ffd2dc;
+         text-shadow:
+         0 0 25px rgba(255, 159, 190, 0.32),
+         0 0 34px rgba(215, 168, 93, 0.15);
          }
 
       </style>
@@ -2158,7 +2310,7 @@
          const duration = 7 + Math.random() * 12;
          const delay = Math.random() * 9;
          const drift = -55 + Math.random() * 110;
-         const opacity = 0.34 + Math.random() * 0.62;
+         const opacity = 0.25 + Math.random() * 0.58;
          const twinkle = 1.8 + Math.random() * 3.2;
          
          dot.style.left = Math.random() * 100 + "%";
