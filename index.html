@@ -1908,6 +1908,68 @@
          }
          }
 
+
+         /* === BALANCED FINAL POLISH: more wow, still smooth on iPhone ===
+            Removed the spreadsheet grid, but brings back visible rose-gold sparkles
+            and removes the blurry main-page haze. */
+         .sparkles {
+         opacity: 0.92 !important;
+         z-index: 2;
+         }
+
+         .sparkle {
+         box-shadow:
+         0 0 13px rgba(255, 228, 183, 0.96),
+         0 0 30px rgba(255, 159, 190, 0.52),
+         0 0 52px rgba(215, 168, 93, 0.24) !important;
+         }
+
+         .sparkle.big-sparkle {
+         box-shadow:
+         0 0 16px rgba(255, 245, 226, 1),
+         0 0 38px rgba(255, 159, 190, 0.62),
+         0 0 68px rgba(215, 168, 93, 0.30) !important;
+         }
+
+         .main.visible {
+         background:
+         radial-gradient(circle at 15% 3%, rgba(255, 164, 198, 0.21), transparent 28%),
+         radial-gradient(circle at 90% 10%, rgba(255, 229, 184, 0.16), transparent 25%),
+         radial-gradient(circle at 50% 86%, rgba(179, 70, 115, 0.13), transparent 35%),
+         linear-gradient(135deg, #070305 0%, #150711 34%, #24101a 68%, #120708 100%) !important;
+         }
+
+         @media (max-width: 768px), (hover: none) and (pointer: coarse) {
+         .sparkles {
+         opacity: 0.86 !important;
+         }
+
+         .main::before,
+         .main::after {
+         display: none !important;
+         }
+
+         .main.visible {
+         background:
+         radial-gradient(circle at 14% 2%, rgba(255, 164, 198, 0.22), transparent 29%),
+         radial-gradient(circle at 90% 9%, rgba(255, 229, 184, 0.16), transparent 26%),
+         radial-gradient(circle at 50% 88%, rgba(179, 70, 115, 0.12), transparent 34%),
+         linear-gradient(135deg, #070305 0%, #150711 34%, #24101a 68%, #120708 100%) !important;
+         }
+
+         .glass-card::before {
+         opacity: 0.62 !important;
+         }
+
+         .gate-card,
+         .glass-card {
+         box-shadow:
+         0 20px 54px rgba(36, 5, 19, 0.44),
+         0 0 0 1px rgba(255, 234, 202, 0.075),
+         0 0 54px rgba(255, 159, 190, 0.095) !important;
+         }
+         }
+
       </style>
    </head>
    <body>
@@ -2294,6 +2356,7 @@
          function returnToGate() {
            sessionStorage.removeItem(EXPERIENCE_OPEN_KEY);
            clearTimeout(introTimer);
+           resetLetterState();
            main.classList.remove("visible");
            introOverlay.classList.remove("visible", "playing", "fade-out", "entering-main");
            introEnterCard.classList.remove("ready");
@@ -2307,6 +2370,7 @@
          async function startExperience() {
            sessionStorage.setItem(EXPERIENCE_OPEN_KEY, "1");
            clearTimeout(introTimer);
+           resetLetterState();
            gate.classList.add("hidden");
            main.classList.remove("visible");
            introEnterCard.classList.remove("ready");
@@ -2378,6 +2442,23 @@
          const birthdayLetter = document.getElementById("birthdayLetter");
          const envelopeCard = document.getElementById("envelopeCard");
 
+         function resetLetterState() {
+           letterOpened = false;
+
+           if (envelopeWrap) {
+             envelopeWrap.classList.remove("opened");
+           }
+
+           if (envelopeCard) {
+             envelopeCard.style.display = "";
+           }
+
+           if (birthdayLetter) {
+             birthdayLetter.classList.add("hidden-letter");
+             birthdayLetter.classList.remove("reveal-letter");
+           }
+         }
+
          function goldBurst() {
            const burst = document.createElement("div");
            burst.className = "gold-burst";
@@ -2436,16 +2517,17 @@
          
          const sparkles = document.getElementById("sparkles");
          
-         for (let i = 0; i < 38; i++) {
+         for (let i = 0; i < 56; i++) {
          const dot = document.createElement("span");
-         dot.className = "sparkle";
+         dot.className = i % 7 === 0 ? "sparkle big-sparkle" : "sparkle";
          
-         const size = 1.1 + Math.random() * 3.0;
-         const duration = 10 + Math.random() * 13;
-         const delay = Math.random() * 9;
-         const drift = -55 + Math.random() * 110;
-         const opacity = 0.18 + Math.random() * 0.42;
-         const twinkle = 2.6 + Math.random() * 3.4;
+         const isBigSparkle = i % 7 === 0;
+         const size = isBigSparkle ? 3.4 + Math.random() * 2.4 : 1.7 + Math.random() * 3.6;
+         const duration = 8 + Math.random() * 12;
+         const delay = Math.random() * 8;
+         const drift = -60 + Math.random() * 120;
+         const opacity = isBigSparkle ? 0.44 + Math.random() * 0.34 : 0.28 + Math.random() * 0.42;
+         const twinkle = 2.0 + Math.random() * 3.0;
          
          dot.style.left = Math.random() * 100 + "%";
          dot.style.setProperty("--size", size + "px");
