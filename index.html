@@ -2082,6 +2082,144 @@
          }
          }
 
+
+         /* === Couple memories gallery: touching, premium, mobile-friendly === */
+         .couple-memories {
+         padding-top: 26px;
+         padding-bottom: 44px;
+         }
+
+         .memories-shell {
+         position: relative;
+         overflow: visible;
+         }
+
+         .memories-head {
+         text-align: center;
+         margin-bottom: 22px;
+         }
+
+         .memories-gallery {
+         display: flex;
+         gap: 18px;
+         overflow-x: auto;
+         overscroll-behavior-x: contain;
+         scroll-snap-type: x mandatory;
+         padding: 10px max(18px, calc((100vw - 640px) / 2 + 18px)) 18px;
+         margin-left: calc(-1 * max(18px, calc((100vw - 640px) / 2 + 18px)));
+         margin-right: calc(-1 * max(18px, calc((100vw - 640px) / 2 + 18px)));
+         scrollbar-width: none;
+         -webkit-overflow-scrolling: touch;
+         }
+
+         .memories-gallery::-webkit-scrollbar {
+         display: none;
+         }
+
+         .memory-card {
+         flex: 0 0 min(82vw, 360px);
+         scroll-snap-align: center;
+         border-radius: 28px;
+         padding: 10px;
+         border: 1px solid rgba(255, 210, 220, 0.28);
+         background:
+         linear-gradient(145deg, rgba(255,247,239,0.105), rgba(255,198,218,0.040)),
+         rgba(18, 7, 14, 0.72);
+         box-shadow:
+         0 22px 58px rgba(36, 5, 19, 0.38),
+         0 0 0 1px rgba(255, 234, 202, 0.060),
+         0 0 42px rgba(255, 159, 190, 0.090);
+         position: relative;
+         overflow: hidden;
+         }
+
+         .memory-card::before {
+         content: "";
+         position: absolute;
+         inset: 1px;
+         border-radius: 27px;
+         border: 1px solid rgba(255,255,255,0.055);
+         pointer-events: none;
+         z-index: 2;
+         }
+
+         .memory-number {
+         position: absolute;
+         top: 20px;
+         left: 20px;
+         z-index: 4;
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         min-width: 34px;
+         height: 28px;
+         padding: 0 9px;
+         border-radius: 999px;
+         color: rgba(255, 247, 239, 0.82);
+         background: rgba(18, 7, 14, 0.52);
+         border: 1px solid rgba(255, 210, 220, 0.22);
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 10px;
+         letter-spacing: 0.14em;
+         backdrop-filter: blur(10px);
+         }
+
+         .memory-card img {
+         display: block;
+         width: 100%;
+         aspect-ratio: 4 / 5;
+         object-fit: cover;
+         object-position: center;
+         border-radius: 21px;
+         border: 1px solid rgba(255, 210, 220, 0.18);
+         background: rgba(18, 7, 14, 0.42);
+         box-shadow: 0 16px 42px rgba(36, 5, 19, 0.24);
+         }
+
+         .memory-card figcaption {
+         margin: 13px 6px 4px;
+         color: rgba(255, 244, 236, 0.72);
+         text-align: center;
+         font-size: 15px;
+         line-height: 1.6;
+         font-style: italic;
+         }
+
+         .memories-hint {
+         margin: 8px 0 0;
+         text-align: center;
+         color: rgba(255, 210, 220, 0.54);
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 11px;
+         letter-spacing: 0.20em;
+         text-transform: uppercase;
+         }
+
+         @media (min-width: 760px) {
+         .memory-card {
+         flex-basis: 330px;
+         }
+         .memories-gallery {
+         padding-left: max(18px, calc((100vw - 1060px) / 2 + 18px));
+         padding-right: max(18px, calc((100vw - 1060px) / 2 + 18px));
+         margin-left: calc(-1 * max(18px, calc((100vw - 1060px) / 2 + 18px)));
+         margin-right: calc(-1 * max(18px, calc((100vw - 1060px) / 2 + 18px)));
+         }
+         }
+
+         @media (max-width: 768px), (hover: none) and (pointer: coarse) {
+         .memory-number {
+         backdrop-filter: none !important;
+         }
+
+         .memory-card {
+         box-shadow:
+         0 16px 42px rgba(36, 5, 19, 0.34),
+         0 0 0 1px rgba(255, 234, 202, 0.055),
+         0 0 30px rgba(255, 159, 190, 0.070);
+         }
+         }
+
       </style>
    </head>
    <body>
@@ -2259,6 +2397,48 @@
                   </div>
                </div>
             </section>
+
+            <section class="couple-memories">
+               <div class="container memories-shell">
+                  <div class="memories-head">
+                     <p class="eyebrow">A few little memories</p>
+                     <h2 class="section-title">Us, in little moments</h2>
+                     <p class="section-copy">
+                        beberapa foto kecil yang i mau taro di sini,
+                        because these moments are part of why tonight feels special.
+                     </p>
+                  </div>
+               </div>
+               <div class="memories-gallery" aria-label="A few memories of Jeremy and Yuny">
+                  <figure class="memory-card">
+                     <span class="memory-number">01</span>
+                     <img src="us1.jpg" alt="Jeremy and Yuny memory 1" loading="lazy" decoding="async" />
+                     <figcaption>one of my favorite parts of this year: us.</figcaption>
+                  </figure>
+                  <figure class="memory-card">
+                     <span class="memory-number">02</span>
+                     <img src="us2.jpg" alt="Jeremy and Yuny memory 2" loading="lazy" decoding="async" />
+                     <figcaption>simple moment, but still something i like a lot.</figcaption>
+                  </figure>
+                  <figure class="memory-card">
+                     <span class="memory-number">03</span>
+                     <img src="us3.jpg" alt="Jeremy and Yuny memory 3" loading="lazy" decoding="async" />
+                     <figcaption>very us, and that is enough.</figcaption>
+                  </figure>
+                  <figure class="memory-card">
+                     <span class="memory-number">04</span>
+                     <img src="us4.jpg" alt="Jeremy and Yuny memory 4" loading="lazy" decoding="async" />
+                     <figcaption>little memories, but they mean a lot to me.</figcaption>
+                  </figure>
+                  <figure class="memory-card">
+                     <span class="memory-number">05</span>
+                     <img src="us5.jpg" alt="Jeremy and Yuny memory 5" loading="lazy" decoding="async" />
+                     <figcaption>more of this, always.</figcaption>
+                  </figure>
+               </div>
+               <p class="memories-hint">swipe slowly</p>
+            </section>
+
             <section>
                <div class="container">
                   <div class="glass-card envelope-card" id="envelopeCard">
