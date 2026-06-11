@@ -1109,6 +1109,374 @@
          text-transform: uppercase;
          }
 
+
+         /* === Soft dark rose-gold luxury theme override ===
+            Keep the original black-gold luxury feel, but lift it with blush / rose-gold accents.
+            This is NOT a bright pastel theme; it is dark luxury + feminine sparkle. */
+         :root {
+         --bg: #13070d;
+         --bg-soft: #201018;
+         --card: rgba(255, 235, 225, 0.092);
+         --card-strong: rgba(255, 231, 222, 0.145);
+         --gold: #d7a85d;
+         --gold-soft: #ffe0b2;
+         --rose: #efb6c9;
+         --rose-soft: #ffd4dd;
+         --rose-deep: #9b4f68;
+         --text: #fff4ec;
+         --muted: #d8bdb7;
+         --line: rgba(239, 182, 201, 0.30);
+         --shadow: rgba(32, 6, 18, 0.56);
+         }
+
+         body {
+         color: var(--text);
+         background:
+         radial-gradient(circle at 18% 8%, rgba(239, 182, 201, 0.22), transparent 27%),
+         radial-gradient(circle at 82% 16%, rgba(255, 224, 178, 0.16), transparent 26%),
+         radial-gradient(circle at 56% 86%, rgba(155, 79, 104, 0.16), transparent 34%),
+         linear-gradient(135deg, #080407 0%, #140810 38%, #241018 70%, #12090b 100%);
+         }
+
+         body::before {
+         background-image:
+         linear-gradient(rgba(255,224,178,0.030) 1px, transparent 1px),
+         linear-gradient(90deg, rgba(239,182,201,0.024) 1px, transparent 1px);
+         mask-image: linear-gradient(to bottom, rgba(0,0,0,0.80), transparent 90%);
+         opacity: 0.92;
+         }
+
+         body::after {
+         content: "";
+         position: fixed;
+         inset: 0;
+         pointer-events: none;
+         z-index: 0;
+         background:
+         radial-gradient(circle at 12% 24%, rgba(255,212,221,0.11) 0 2px, transparent 4px),
+         radial-gradient(circle at 78% 18%, rgba(255,224,178,0.12) 0 1.5px, transparent 4px),
+         radial-gradient(circle at 86% 72%, rgba(239,182,201,0.10) 0 2px, transparent 5px),
+         radial-gradient(circle at 28% 82%, rgba(255,235,210,0.10) 0 1.5px, transparent 4px);
+         background-size: 190px 190px, 230px 230px, 260px 260px, 310px 310px;
+         opacity: 0.85;
+         filter: blur(0.2px);
+         }
+
+         .noise {
+         opacity: 0.045;
+         mix-blend-mode: soft-light;
+         }
+
+         .sparkle {
+         background: linear-gradient(135deg, var(--gold-soft), var(--rose-soft));
+         box-shadow:
+         0 0 12px rgba(255, 224, 178, 0.96),
+         0 0 28px rgba(239, 182, 201, 0.44),
+         0 0 48px rgba(215, 168, 93, 0.20);
+         }
+
+         .sparkle:nth-child(3n) {
+         background: var(--rose-soft);
+         box-shadow:
+         0 0 12px rgba(255, 212, 221, 0.95),
+         0 0 30px rgba(239, 182, 201, 0.44),
+         0 0 46px rgba(215, 168, 93, 0.13);
+         }
+
+         .sparkle:nth-child(4n) {
+         background: #fff2dc;
+         box-shadow:
+         0 0 14px rgba(255, 242, 220, 0.95),
+         0 0 30px rgba(215, 168, 93, 0.36),
+         0 0 48px rgba(239, 182, 201, 0.18);
+         }
+
+         .gate-card,
+         .glass-card {
+         border-color: rgba(239, 182, 201, 0.28);
+         background:
+         linear-gradient(145deg, rgba(255,238,231,0.115), rgba(255,205,221,0.034)),
+         rgba(18, 8, 14, 0.74);
+         box-shadow:
+         0 28px 90px rgba(32, 6, 18, 0.58),
+         0 0 0 1px rgba(255, 224, 178, 0.050),
+         0 0 58px rgba(239, 182, 201, 0.075);
+         }
+
+         .gate-card::before {
+         background: linear-gradient(120deg, transparent, rgba(255,224,178,0.19), rgba(239,182,201,0.15), transparent);
+         }
+
+         .glass-card::before {
+         background:
+         radial-gradient(circle at 18% 12%, rgba(239,182,201,0.14), transparent 28%),
+         radial-gradient(circle at 82% 88%, rgba(255,224,178,0.11), transparent 30%);
+         }
+
+         .main .glass-card {
+         background:
+         linear-gradient(145deg, rgba(255,238,231,0.105), rgba(255,205,221,0.030)),
+         linear-gradient(180deg, rgba(239,182,201,0.046), transparent 46%),
+         rgba(18, 8, 14, 0.76);
+         box-shadow:
+         0 24px 80px rgba(32, 6, 18, 0.50),
+         inset 0 1px 0 rgba(255,255,255,0.08),
+         0 0 0 1px rgba(255,224,178,0.055),
+         0 0 52px rgba(239,182,201,0.075);
+         }
+
+         .main .glass-card::after {
+         border-color: rgba(255, 224, 178, 0.055);
+         }
+
+         .eyebrow,
+         .row span:first-child {
+         color: var(--rose);
+         }
+
+         .heart,
+         .section-title,
+         .count-title,
+         .envelope-title,
+         .signature,
+         .closing-card h2 {
+         color: var(--rose-soft);
+         text-shadow:
+         0 0 24px rgba(239, 182, 201, 0.30),
+         0 0 34px rgba(215, 168, 93, 0.14);
+         }
+
+         .subtitle,
+         .romantic-line,
+         .section-copy,
+         .ticket-subtitle,
+         .letter p,
+         .closing-card p,
+         .photo-caption,
+         .envelope-copy {
+         color: var(--muted);
+         }
+
+         .subtitle em,
+         .romantic-line em,
+         .letter em,
+         .map-link-small {
+         color: var(--gold-soft);
+         }
+
+         .open-btn,
+         .map-btn,
+         .open-letter-btn,
+         .intro-enter-btn {
+         color: #2a1015;
+         background: linear-gradient(135deg, #fff0d4 0%, #ffc8d6 47%, #d7a85d 100%);
+         box-shadow:
+         0 14px 34px rgba(239, 182, 201, 0.20),
+         0 10px 30px rgba(215, 168, 93, 0.18);
+         }
+
+         .open-btn:hover,
+         .map-btn:hover,
+         .open-letter-btn:hover,
+         .intro-enter-btn:hover,
+         .intro-enter-btn:active {
+         box-shadow:
+         0 18px 48px rgba(239, 182, 201, 0.28),
+         0 14px 36px rgba(215, 168, 93, 0.22),
+         0 0 0 7px rgba(255, 212, 221, 0.065);
+         }
+
+         .hint,
+         .time-box small {
+         color: rgba(255, 244, 236, 0.58);
+         }
+
+         .main::before {
+         background: radial-gradient(circle, rgba(239,182,201,0.48), transparent 68%);
+         opacity: 0.20;
+         }
+
+         .main::after {
+         background: radial-gradient(circle, rgba(255,224,178,0.40), transparent 70%);
+         opacity: 0.18;
+         }
+
+         .music-btn,
+         .back-gate-btn,
+         .skip-intro-btn {
+         background: rgba(18, 8, 14, 0.66);
+         color: var(--text);
+         border-color: rgba(239,182,201,0.18);
+         box-shadow: 0 12px 34px rgba(32,6,18,0.25);
+         }
+
+         .row {
+         border-top-color: rgba(255, 224, 178, 0.105);
+         }
+
+         .row span:last-child {
+         color: var(--text);
+         }
+
+         .time-box {
+         background: rgba(255, 232, 225, 0.075);
+         border-color: rgba(239,182,201,0.13);
+         }
+
+         .time-box strong {
+         color: var(--gold-soft);
+         text-shadow: 0 0 18px rgba(215,168,93,0.18);
+         }
+
+         .photo-card img {
+         border-color: rgba(239, 182, 201, 0.20);
+         background: rgba(18,8,14,0.42);
+         box-shadow: 0 18px 50px rgba(32, 6, 18, 0.24);
+         }
+
+         .map-frame iframe {
+         filter: saturate(0.92) contrast(1.02) brightness(0.94) sepia(0.08);
+         }
+
+         .envelope-body {
+         background:
+         linear-gradient(145deg, rgba(255,235,225,0.14), rgba(255,205,221,0.035)),
+         rgba(24, 10, 17, 0.92);
+         border-color: rgba(239,182,201,0.38);
+         }
+
+         .envelope-body::before,
+         .envelope-body::after {
+         background: linear-gradient(145deg, rgba(239,182,201,0.14), rgba(255,224,178,0.035));
+         border-top-color: rgba(255,224,178,0.20);
+         }
+
+         .envelope-flap {
+         background: linear-gradient(145deg, rgba(239,182,201,0.30), rgba(255,224,178,0.07));
+         border-color: rgba(239,182,201,0.40);
+         }
+
+         .envelope-letter-mini {
+         background: linear-gradient(180deg, rgba(255,247,239,0.96), rgba(255,220,227,0.84));
+         }
+
+         .envelope-letter-mini::before {
+         color: #4b2430;
+         }
+
+         .envelope-seal {
+         background: linear-gradient(135deg, #fff0d4, #ffc8d6 55%, #d7a85d);
+         color: #321319;
+         box-shadow: 0 0 28px rgba(239,182,201,0.38), 0 0 22px rgba(215,168,93,0.22);
+         }
+
+         .gold-burst span {
+         background: linear-gradient(135deg, var(--gold-soft), var(--rose-soft));
+         box-shadow:
+         0 0 14px rgba(255, 224, 178, 0.92),
+         0 0 28px rgba(239, 182, 201, 0.38);
+         }
+
+         .toast {
+         background: rgba(18,8,14,0.74);
+         color: var(--text);
+         border-color: rgba(239,182,201,0.18);
+         }
+
+         .intro-overlay {
+         background:
+         radial-gradient(circle at 50% 8%, rgba(255, 212, 221, 0.18), transparent 25%),
+         radial-gradient(circle at 18% 78%, rgba(215, 168, 93, 0.13), transparent 31%),
+         radial-gradient(circle at 86% 62%, rgba(239, 182, 201, 0.075), transparent 24%),
+         linear-gradient(145deg, #060305 0%, #120811 44%, #250f18 72%, #110808 100%);
+         }
+
+         .intro-overlay::before {
+         background:
+         linear-gradient(112deg, transparent 5%, rgba(255,224,178,0.14) 22%, rgba(239,182,201,0.10) 30%, transparent 46%),
+         radial-gradient(circle at 72% 34%, rgba(255,212,221,0.17), transparent 22%),
+         radial-gradient(circle at 26% 70%, rgba(215,168,93,0.14), transparent 28%);
+         }
+
+         .intro-overlay::after {
+         background-image:
+         linear-gradient(rgba(255,224,178,0.032) 1px, transparent 1px),
+         linear-gradient(90deg, rgba(239,182,201,0.024) 1px, transparent 1px),
+         radial-gradient(circle at 50% 50%, rgba(255,212,221,0.09), transparent 42%);
+         opacity: 0.31;
+         }
+
+         .intro-stage::before,
+         .intro-stage::after {
+         background: radial-gradient(circle, rgba(239,182,201,0.42), transparent 66%);
+         }
+
+         .intro-line {
+         color: rgba(255, 244, 236, 0.88);
+         text-shadow: 0 0 34px rgba(239,182,201,0.20), 0 0 26px rgba(215,168,93,0.12);
+         }
+
+         .intro-line strong {
+         color: #ffe3bd;
+         text-shadow: 0 0 30px rgba(215,168,93,0.24), 0 0 38px rgba(239,182,201,0.16);
+         }
+
+         .intro-line .small-line,
+         .intro-enter-kicker {
+         color: rgba(255, 212, 221, 0.72);
+         }
+
+         .intro-photo {
+         background-image:
+         linear-gradient(180deg, rgba(22,5,14,0.70), rgba(22,5,14,0.20) 42%, rgba(22,5,14,0.76)),
+         linear-gradient(90deg, rgba(22,5,14,0.48), transparent 29%, transparent 71%, rgba(22,5,14,0.48)),
+         radial-gradient(circle at 50% 37%, rgba(239,182,201,0.08), transparent 34%),
+         url("us.jpg");
+         }
+
+         .intro-photo-scene::before {
+         border-color: rgba(255, 212, 221, 0.28);
+         box-shadow:
+         inset 0 0 70px rgba(24,8,16,0.34),
+         0 0 60px rgba(239,182,201,0.13),
+         0 0 42px rgba(215,168,93,0.10);
+         }
+
+         .intro-photo-scene::after {
+         background:
+         linear-gradient(118deg, transparent 20%, rgba(255,224,178,0.19) 40%, rgba(239,182,201,0.13) 48%, transparent 61%),
+         radial-gradient(circle at 50% 35%, transparent 0%, rgba(22,5,14,0.12) 47%, rgba(22,5,14,0.52) 100%);
+         }
+
+         .intro-reservation {
+         background:
+         linear-gradient(145deg, rgba(30,8,18,0.40), rgba(255,205,221,0.040));
+         border-color: rgba(255, 212, 221, 0.22);
+         box-shadow:
+         0 24px 80px rgba(24, 6, 16, 0.36),
+         0 0 46px rgba(239,182,201,0.09);
+         }
+
+         .intro-reservation .eyebrow-mini {
+         color: rgba(255, 212, 221, 0.72);
+         }
+
+         .intro-reservation .table {
+         color: #ffe3bd;
+         text-shadow:
+         0 12px 42px rgba(0,0,0,0.62),
+         0 0 30px rgba(239,182,201,0.22),
+         0 0 24px rgba(215,168,93,0.18);
+         }
+
+         .intro-reservation .time {
+         color: rgba(255, 244, 236, 0.90);
+         }
+
+         .intro-enter-btn {
+         border-color: rgba(255, 212, 221, 0.46);
+         }
+
          @media (max-width: 420px) {
          .gate-card {
          padding: 32px 20px;
@@ -1130,6 +1498,130 @@
          font-size: 8px;
          }
          }
+
+
+         /* === Preview tweak: brighter gate + richer rose/champagne glow ===
+            Keeps the dark rose-gold luxury theme, but makes the first impression
+            slightly brighter, cuter, and more sparkling without going pastel. */
+         body {
+         background:
+         radial-gradient(circle at 16% 7%, rgba(255, 193, 213, 0.29), transparent 27%),
+         radial-gradient(circle at 82% 13%, rgba(255, 226, 184, 0.22), transparent 26%),
+         radial-gradient(circle at 58% 86%, rgba(177, 82, 115, 0.18), transparent 35%),
+         radial-gradient(circle at 50% 38%, rgba(255, 240, 216, 0.045), transparent 45%),
+         linear-gradient(135deg, #0a0408 0%, #170812 34%, #2a1020 68%, #13070b 100%);
+         }
+
+         body::after {
+         opacity: 1;
+         background:
+         radial-gradient(circle at 12% 24%, rgba(255,212,221,0.16) 0 2px, transparent 4px),
+         radial-gradient(circle at 78% 18%, rgba(255,224,178,0.16) 0 1.5px, transparent 4px),
+         radial-gradient(circle at 86% 72%, rgba(239,182,201,0.14) 0 2px, transparent 5px),
+         radial-gradient(circle at 28% 82%, rgba(255,235,210,0.13) 0 1.5px, transparent 4px);
+         background-size: 180px 180px, 220px 220px, 250px 250px, 300px 300px;
+         }
+
+         .sparkle {
+         box-shadow:
+         0 0 14px rgba(255, 224, 178, 1),
+         0 0 34px rgba(239, 182, 201, 0.56),
+         0 0 58px rgba(215, 168, 93, 0.25);
+         }
+
+         .gate {
+         position: relative;
+         overflow: hidden;
+         }
+
+         .gate::before,
+         .gate::after {
+         content: "";
+         position: absolute;
+         border-radius: 999px;
+         pointer-events: none;
+         z-index: 1;
+         filter: blur(26px);
+         animation: gateRoseFloat 9s ease-in-out infinite alternate;
+         }
+
+         .gate::before {
+         width: 310px;
+         height: 310px;
+         left: -128px;
+         top: 12%;
+         background: radial-gradient(circle, rgba(255, 196, 214, 0.34), rgba(215, 168, 93, 0.11) 48%, transparent 70%);
+         }
+
+         .gate::after {
+         width: 270px;
+         height: 270px;
+         right: -120px;
+         bottom: 11%;
+         background: radial-gradient(circle, rgba(255, 231, 193, 0.28), rgba(239, 182, 201, 0.15) 45%, transparent 72%);
+         animation-delay: -3.5s;
+         }
+
+         @keyframes gateRoseFloat {
+         from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.70; }
+         to { transform: translate3d(26px, -22px, 0) scale(1.16); opacity: 1; }
+         }
+
+         .gate-card {
+         position: relative;
+         z-index: 2;
+         background:
+         radial-gradient(circle at 22% 8%, rgba(255, 218, 226, 0.16), transparent 32%),
+         radial-gradient(circle at 82% 92%, rgba(255, 224, 178, 0.13), transparent 34%),
+         linear-gradient(145deg, rgba(255,245,238,0.145), rgba(255,205,221,0.050)),
+         rgba(18, 8, 14, 0.76);
+         border-color: rgba(255, 206, 222, 0.34);
+         box-shadow:
+         0 30px 96px rgba(32, 6, 18, 0.58),
+         0 0 0 1px rgba(255, 229, 196, 0.075),
+         0 0 76px rgba(239, 182, 201, 0.13),
+         0 0 110px rgba(215, 168, 93, 0.055);
+         }
+
+         .gate-card::before {
+         background: linear-gradient(120deg, transparent, rgba(255,224,178,0.25), rgba(255,198,217,0.22), transparent);
+         }
+
+         .gate-card::after {
+         content: "";
+         position: absolute;
+         inset: 1px;
+         border-radius: inherit;
+         pointer-events: none;
+         border: 1px solid rgba(255, 244, 236, 0.055);
+         box-shadow: inset 0 1px 0 rgba(255,255,255,0.075);
+         }
+
+         .gate-card > * {
+         position: relative;
+         z-index: 2;
+         }
+
+         .gate-card .heart {
+         color: #ffd4dd;
+         text-shadow:
+         0 0 24px rgba(255, 212, 221, 0.45),
+         0 0 34px rgba(255, 224, 178, 0.18);
+         }
+
+         .gate-card h1 {
+         text-shadow:
+         0 0 28px rgba(255, 212, 221, 0.10),
+         0 0 38px rgba(215, 168, 93, 0.08);
+         }
+
+         .open-btn {
+         box-shadow:
+         0 16px 44px rgba(239, 182, 201, 0.25),
+         0 12px 36px rgba(215, 168, 93, 0.22),
+         0 0 0 7px rgba(255, 212, 221, 0.055);
+         }
+
       </style>
    </head>
    <body>
@@ -1666,7 +2158,7 @@
          const duration = 7 + Math.random() * 12;
          const delay = Math.random() * 9;
          const drift = -55 + Math.random() * 110;
-         const opacity = 0.25 + Math.random() * 0.58;
+         const opacity = 0.34 + Math.random() * 0.62;
          const twinkle = 1.8 + Math.random() * 3.2;
          
          dot.style.left = Math.random() * 100 + "%";
