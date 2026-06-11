@@ -1774,6 +1774,140 @@
          0 0 34px rgba(215, 168, 93, 0.15);
          }
 
+
+
+         /* === FINAL PERFORMANCE FIX: keep rose-gold luxury, remove mobile jank ===
+            The heavy parts were the fixed grid layers, dotted background layer,
+            many sparkle pseudo-elements, and backdrop-filter on every card.
+            This keeps the look but makes iPhone scrolling much smoother. */
+         html,
+         body {
+         background-color: #12050c !important;
+         }
+
+         body::before,
+         body::after {
+         display: none !important;
+         background: none !important;
+         background-image: none !important;
+         }
+
+         .intro-overlay::after {
+         background-image:
+         radial-gradient(circle at 50% 50%, rgba(255,210,220,0.075), transparent 44%) !important;
+         background-size: 100% 100% !important;
+         opacity: 0.16 !important;
+         }
+
+         .sparkles {
+         opacity: 0.76;
+         contain: layout paint;
+         }
+
+         .sparkle::after {
+         display: none !important;
+         }
+
+         .sparkle {
+         box-shadow:
+         0 0 10px rgba(255, 228, 183, 0.82),
+         0 0 23px rgba(255, 159, 190, 0.34),
+         0 0 38px rgba(215, 168, 93, 0.14) !important;
+         will-change: transform, opacity;
+         }
+
+         .main.visible {
+         background:
+         radial-gradient(circle at 16% 2%, rgba(255, 164, 198, 0.18), transparent 27%),
+         radial-gradient(circle at 88% 14%, rgba(255, 229, 184, 0.13), transparent 24%),
+         linear-gradient(135deg, #070305 0%, #150711 34%, #24101a 68%, #120708 100%);
+         }
+
+         @media (max-width: 768px), (hover: none) and (pointer: coarse) {
+         html,
+         body {
+         background-color: #12050c !important;
+         }
+
+         .noise {
+         display: none !important;
+         }
+
+         .sparkles {
+         opacity: 0.58;
+         }
+
+         .gate-card,
+         .glass-card,
+         .music-btn,
+         .back-gate-btn,
+         .skip-intro-btn,
+         .toast,
+         .intro-reservation {
+         -webkit-backdrop-filter: none !important;
+         backdrop-filter: none !important;
+         }
+
+         .gate-card,
+         .glass-card {
+         box-shadow:
+         0 18px 48px rgba(36, 5, 19, 0.42),
+         0 0 0 1px rgba(255, 234, 202, 0.065),
+         0 0 44px rgba(255, 159, 190, 0.075) !important;
+         }
+
+         .gate-card::before {
+         animation-duration: 6.2s !important;
+         opacity: 0.65;
+         }
+
+         .glass-card::before {
+         animation: none !important;
+         opacity: 0.52 !important;
+         }
+
+         .main::before,
+         .main::after {
+         position: absolute !important;
+         filter: blur(16px) !important;
+         animation: none !important;
+         opacity: 0.11 !important;
+         }
+
+         .gate::before,
+         .gate::after,
+         .intro-stage::before,
+         .intro-stage::after {
+         filter: blur(18px) !important;
+         animation: none !important;
+         opacity: 0.45 !important;
+         }
+
+         .intro-overlay::before {
+         filter: blur(10px) !important;
+         animation-duration: 20s !important;
+         opacity: 0.58 !important;
+         }
+
+         .intro-line,
+         .intro-reservation,
+         .intro-enter-card {
+         will-change: opacity, transform;
+         }
+
+         .intro-line strong,
+         .intro-reservation .table,
+         .section-title,
+         .count-title,
+         .envelope-title,
+         .signature,
+         .closing-card h2 {
+         text-shadow:
+         0 0 18px rgba(255, 159, 190, 0.22),
+         0 0 20px rgba(215, 168, 93, 0.12) !important;
+         }
+         }
+
       </style>
    </head>
    <body>
@@ -2302,16 +2436,16 @@
          
          const sparkles = document.getElementById("sparkles");
          
-         for (let i = 0; i < 75; i++) {
+         for (let i = 0; i < 38; i++) {
          const dot = document.createElement("span");
          dot.className = "sparkle";
          
-         const size = 1.4 + Math.random() * 4.4;
-         const duration = 7 + Math.random() * 12;
+         const size = 1.1 + Math.random() * 3.0;
+         const duration = 10 + Math.random() * 13;
          const delay = Math.random() * 9;
          const drift = -55 + Math.random() * 110;
-         const opacity = 0.25 + Math.random() * 0.58;
-         const twinkle = 1.8 + Math.random() * 3.2;
+         const opacity = 0.18 + Math.random() * 0.42;
+         const twinkle = 2.6 + Math.random() * 3.4;
          
          dot.style.left = Math.random() * 100 + "%";
          dot.style.setProperty("--size", size + "px");
