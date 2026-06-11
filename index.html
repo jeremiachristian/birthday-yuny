@@ -1970,6 +1970,118 @@
          }
          }
 
+
+
+         /* === TRUE FINAL FIX: gate-like moving sparkle background on main page ===
+            Keeps iPhone scroll smooth, removes blurry main haze, and makes sparkles visible again. */
+         html,
+         body {
+         background-color: #12050c !important;
+         }
+
+         body {
+         background:
+         radial-gradient(circle at 12% 4%, rgba(255, 164, 198, 0.30), transparent 30%),
+         radial-gradient(circle at 86% 10%, rgba(255, 229, 184, 0.22), transparent 28%),
+         radial-gradient(circle at 20% 72%, rgba(255, 210, 220, 0.14), transparent 33%),
+         radial-gradient(circle at 55% 92%, rgba(179, 70, 115, 0.16), transparent 38%),
+         linear-gradient(135deg, #070305 0%, #150711 31%, #2b0f1f 65%, #120708 100%) !important;
+         }
+
+         body::before,
+         body::after {
+         display: none !important;
+         background: none !important;
+         background-image: none !important;
+         }
+
+         .app,
+         .main,
+         .main.visible,
+         .main section {
+         background: transparent !important;
+         }
+
+         .main::before,
+         .main::after {
+         display: none !important;
+         content: none !important;
+         }
+
+         .sparkles {
+         opacity: 1 !important;
+         z-index: 2 !important;
+         contain: layout paint;
+         transform: translateZ(0);
+         }
+
+         .sparkle::after {
+         display: none !important;
+         }
+
+         .sparkle {
+         filter: saturate(1.18) brightness(1.08);
+         box-shadow:
+         0 0 15px rgba(255, 238, 214, 0.98),
+         0 0 34px rgba(255, 159, 190, 0.58),
+         0 0 58px rgba(215, 168, 93, 0.26) !important;
+         will-change: transform, opacity;
+         }
+
+         .sparkle.big-sparkle {
+         box-shadow:
+         0 0 18px rgba(255, 250, 236, 1),
+         0 0 44px rgba(255, 159, 190, 0.72),
+         0 0 78px rgba(215, 168, 93, 0.34) !important;
+         }
+
+         .gate-card,
+         .glass-card {
+         -webkit-backdrop-filter: blur(10px);
+         backdrop-filter: blur(10px);
+         }
+
+         @media (max-width: 768px), (hover: none) and (pointer: coarse) {
+         .gate-card,
+         .glass-card,
+         .music-btn,
+         .back-gate-btn,
+         .skip-intro-btn,
+         .toast,
+         .intro-reservation {
+         -webkit-backdrop-filter: none !important;
+         backdrop-filter: none !important;
+         }
+
+         .sparkles {
+         opacity: 1 !important;
+         }
+
+         .sparkle {
+         box-shadow:
+         0 0 13px rgba(255, 238, 214, 0.95),
+         0 0 28px rgba(255, 159, 190, 0.50),
+         0 0 46px rgba(215, 168, 93, 0.22) !important;
+         }
+
+         .sparkle.big-sparkle {
+         box-shadow:
+         0 0 16px rgba(255, 250, 236, 1),
+         0 0 36px rgba(255, 159, 190, 0.64),
+         0 0 62px rgba(215, 168, 93, 0.30) !important;
+         }
+
+         .glass-card::before {
+         opacity: 0.54 !important;
+         animation: none !important;
+         }
+
+         .main.visible,
+         .main section {
+         background: transparent !important;
+         }
+         }
+
       </style>
    </head>
    <body>
@@ -2517,16 +2629,16 @@
          
          const sparkles = document.getElementById("sparkles");
          
-         for (let i = 0; i < 56; i++) {
+         for (let i = 0; i < 68; i++) {
          const dot = document.createElement("span");
-         dot.className = i % 7 === 0 ? "sparkle big-sparkle" : "sparkle";
+         dot.className = i % 6 === 0 ? "sparkle big-sparkle" : "sparkle";
          
-         const isBigSparkle = i % 7 === 0;
-         const size = isBigSparkle ? 3.4 + Math.random() * 2.4 : 1.7 + Math.random() * 3.6;
+         const isBigSparkle = i % 6 === 0;
+         const size = isBigSparkle ? 4.0 + Math.random() * 2.7 : 2.0 + Math.random() * 3.9;
          const duration = 8 + Math.random() * 12;
          const delay = Math.random() * 8;
          const drift = -60 + Math.random() * 120;
-         const opacity = isBigSparkle ? 0.44 + Math.random() * 0.34 : 0.28 + Math.random() * 0.42;
+         const opacity = isBigSparkle ? 0.56 + Math.random() * 0.32 : 0.36 + Math.random() * 0.44;
          const twinkle = 2.0 + Math.random() * 3.0;
          
          dot.style.left = Math.random() * 100 + "%";
